@@ -1,13 +1,26 @@
+@import url("components/Header/header.css");
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	padding: 0;
+	font-family: "Roboto", sans-serif;
+	color: var(--mainColor);
+	background-color: var(--backgroundColor);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+}
+
+:root {
+	--backgroundColor: #2b2b2b;
+	--mainColor: #fffffff1;
+	--secondaryColor: #ffe600;
+}
+
+.yellow {
+	color: var(--secondaryColor);
 }

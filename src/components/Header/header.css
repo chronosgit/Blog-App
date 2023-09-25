@@ -1,0 +1,118 @@
+.header {
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header_left, .header_logoBox, .header_right, .header_socials {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header_logoBox {
+    gap: 0.5rem;
+}
+
+.header_logo {
+    width: 2rem;
+    height: 2rem;
+}
+
+.header_name {
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.header_link {
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--mainColor);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header_left .header_link {
+    margin: 0 2.5rem;
+}
+
+.header_left .header_link::after { /* white line after link */
+    content: "";
+    position: absolute;
+    left: 5rem;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background-color: var(--mainColor);
+    opacity: 0.5;
+}
+
+.header_left .header_link::before { /* yellow line on hover */
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 0;
+    width: 100%;
+    background-color: var(--secondaryColor);
+    opacity: 0.9;
+}
+
+.header_left .header_link:hover::before {
+    height: 4px;
+}
+
+
+
+
+
+.header_right {
+    gap: 2rem;
+}
+
+.header_search {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.header_search:hover {
+    opacity: 1;
+}
+
+.header_socials {
+    gap: 0.8rem;
+}
+
+.header_social {
+    color: var(--mainColor);
+}
+
+.header_auth {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+}
+
+.header_auth::before { /* yellow line on hover */
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 4px;
+    text-align: center;
+    margin: 0 auto;
+    background-color: red;
+    transition: all 0.3s ease;
+}
+
+.header_auth:hover::before {
+    width: 100%;
+}
