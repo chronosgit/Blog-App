@@ -5,8 +5,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import { Box, Typography, Link } from '@mui/material';
 
-import HeaderNavigationLink from './HeaderNavigationLink';
-import HeaderSocialLink from './HeaderSocialLink';
+import NavigationLink from '../NavigationLink/NavigationLink';
+import SocialLink from '../SocialLink/SocialLink';
 
 function Header() {
     return (
@@ -58,13 +58,13 @@ function Header() {
                     </Typography>
                 </Box>
 
-                <HeaderNavigationLink content="Home" destination="/" />        
+                <NavigationLink content="Home" destination="/" />        
 
-                <HeaderNavigationLink content="Link1" destination="/" />
+                <NavigationLink content="Link1" destination="/" />
 
-                <HeaderNavigationLink content="Link2" destination="/" />
+                <NavigationLink content="Link2" destination="/" />
 
-                <HeaderNavigationLink content="Link3" destination="/" />
+                <NavigationLink content="Link3" destination="/" />
             </Box>
 
             <Box 
@@ -96,13 +96,13 @@ function Header() {
                         gap: "0.8rem",
                     }}
                 >
-                    <HeaderSocialLink destination="https://www.facebook.com/" icon={<FacebookRoundedIcon />} />
+                    <SocialLink destination="https://www.facebook.com/" icon={<FacebookRoundedIcon />} />
                     
-                    <HeaderSocialLink destination="https://twitter.com/" icon={<TwitterIcon />} />
+                    <SocialLink destination="https://twitter.com/" icon={<TwitterIcon />} />
                     
-                    <HeaderSocialLink destination="https://www.instagram.com/" icon={<InstagramIcon />} />
+                    <SocialLink destination="https://www.instagram.com/" icon={<InstagramIcon />} />
                     
-                    <HeaderSocialLink destination="mailto:dummymailunreal@example.com" icon={<EmailRoundedIcon />} />
+                    <SocialLink destination="mailto:dummymailunreal@example.com" icon={<EmailRoundedIcon />} />
                 </Box>
 
                 <Link 

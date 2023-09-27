@@ -1,6 +1,7 @@
 import { Link } from "@mui/material";
 
-function HeaderNavigationLink(props) {
+function NavigationLink(props) {
+    const {small, textTransform = "uppercase", letterSpacing = 1, margin = "0 2.5rem", hasLine} = props;
     return (
         <Link
             href={props.destination} 
@@ -8,12 +9,13 @@ function HeaderNavigationLink(props) {
             color="var(--mainColor)"
             sx={{
                 position: "relative",
-                fontSize: "0.9rem",
-                textTransform: "uppercase",
-                letterSpacing: 1,
-                m: "0 2.5rem",
+                fontSize: small ? "0.7rem" : "0.9rem",
+                textTransform: textTransform,
+                letterSpacing: letterSpacing,
+                m: margin,
                 cursor: "pointer",
                 "&::after": {
+                    display: hasLine ? "block" : "none",
                     content: '""',
                     position: "absolute",
                     left: "5rem",
@@ -35,7 +37,7 @@ function HeaderNavigationLink(props) {
                 },
                 "&:hover": {
                     "&::before": {
-                        height: 4
+                        height: small ? 3 : 4,
                     },
                 }
             }}
@@ -45,4 +47,4 @@ function HeaderNavigationLink(props) {
     );
 }
 
-export default HeaderNavigationLink;
+export default NavigationLink;

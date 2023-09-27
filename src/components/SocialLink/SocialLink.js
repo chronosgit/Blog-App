@@ -1,6 +1,6 @@
 import { Link } from "@mui/material";
 
-function HeaderSocialLink(props) {
+function SocialLink(props) {
     return (
         <Link
             href={props.destination} 
@@ -15,4 +15,4 @@ function HeaderSocialLink(props) {
     );
 }
 
-export default HeaderSocialLink;
+export default SocialLink;
