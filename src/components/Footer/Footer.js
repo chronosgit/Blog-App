@@ -1,12 +1,10 @@
-import { Box, Typography } from "@mui/material";
-
-import NavigationLink from "../NavigationLink/NavigationLink";
+import { Grid, Typography } from "@mui/material";
 
 function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <Box
+        <Grid // dunno how to place it at the bottom of a whole page....
             component="footer"
             sx={{
                 position: "fixed",
@@ -17,54 +15,25 @@ function Footer() {
                 color: "var(--mainColor)"
             }}
         >
-            <Box 
+            <Typography
                 sx={{
-                    mb: "2rem",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
-                    gap: "3rem",
+                    fontSize: "1.2rem",
+                    fontWeight: "900",
+                    letterSpacing: 3,
+                    textTransform: "uppercase",
                 }}
             >
-                <Typography
-                    sx={{
-                        mr: "3px",
-                        fontSize: "1.2rem",
-                        fontWeight: "900",
-                        letterSpacing: 3,
-                        textTransform: "uppercase",
-                    }}
-                >
-                    Engi<span className="yellow">World</span>
-                </Typography>
+                Engi<span className="yellow">World</span>
+            </Typography>
 
-                <NavigationLink destination="/" content="Link1" margin="0" letterSpacing={4} small hasLine={false} />
-
-                <NavigationLink destination="/" content="Link2" margin="0" letterSpacing={4} small hasLine={false} />
-                
-                <NavigationLink destination="/" content="Link3" margin="0" letterSpacing={4} small hasLine={false} />
-
-                <NavigationLink destination="/" content="Link4" margin="0" letterSpacing={4} small hasLine={false} />
-            </Box>
-
-            <Box 
+            <Typography
                 sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
-                    gap: "3rem",
+                    fontSize: "0.9rem",
                 }}
             >
-                <Typography
-                    sx={{
-                        fontSize: "0.9rem",
-                    }}
-                >
-                    © {currentYear} EngiWorld. All rights reserved.
-                </Typography>
-            </Box>
-
-        </Box>
+                © {currentYear} EngiWorld. All rights reserved.
+            </Typography>
+        </Grid>
     )
 }
 

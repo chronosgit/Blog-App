@@ -1,6 +1,12 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
+
 body {
 	margin: 0;
 	padding: 0;
+	padding-bottom: 100px;
 	font-family: "Roboto", sans-serif;
 	color: var(--mainColor);
 	background-color: var(--backgroundColor);
@@ -14,9 +20,12 @@ body {
 }
 
 :root {
-	--backgroundColor: #2b2b2b;
+	/* --backgroundColor: #2b2b2b;
 	--mainColor: #fffffff1;
-	--secondaryColor: #ffe600;
+	--secondaryColor: #ffe600; */
+	--backgroundColor: #fffffff1;
+	--mainColor: #2b2b2b;
+	--secondaryColor: #ffbb00;
 }
 
 .yellow {
