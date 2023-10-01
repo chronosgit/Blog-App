@@ -62,7 +62,7 @@ function HomeContact() {
             <Container 
                 maxWidth="md"
                 sx={{
-                    maxHeight: "400px",
+                    height: "30rem",
                     py: "3rem",
                     display: "flex",
                     justifyContent: "space-between",
@@ -100,7 +100,7 @@ function HomeContact() {
 
                     <Typography
                         sx={{
-                            mb: "1rem",
+                            mb: "2rem",
                             fontSize: "1.1rem",
                             fontWeight: "600",
                         }}
@@ -110,7 +110,6 @@ function HomeContact() {
 
                     <Box
                         sx={{
-                            mb: "1rem",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
