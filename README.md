@@ -3,16 +3,13 @@ KBTU "JS. React" final project
 
 ## Tasks:
 <br />
-responsive design (maybe?) <br />
-toggle theme<br />
-maybe cut out some code in more components<br />
-add some animations (built in animations in MUI)<br />
-add "active link" styling in nav<br />
-make footer fixed at the bottom of a page (currently fixed at the bottom of browser viewport)<br />
-clean / polish all code<br />
-make 404 page<br />
-make a page, which shows up even when no internet connection exists (forgot how it is called)<br />
-lazy loading where necessary<br />
-maybe some cool 3d stuff in home page? (three.js as an example)<br />
+Responsive design (maybe?) <br />
+Cut out some code into more components <br />
+Add some animations (built in animations in MUI) <br />
+Make footer fixed at the bottom of a page (currently fixed at the bottom of browser viewport) <br />
+Clean & polish all code <br />
+Make 404 page <br />
+Make a page, which shows up even when no internet connection exists <br />
+Lazy loading where necessary <br />
 ...<br />
-continue building the website according to the topic and requirements<br />
+Continue building the website according to the topic and requirements<br />
