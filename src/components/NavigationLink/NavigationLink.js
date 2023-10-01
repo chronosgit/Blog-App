@@ -1,11 +1,24 @@
 import { Box, Link } from "@mui/material";
 
 function NavigationLink(props) {
-    const {small, textTransform = "uppercase", letterSpacing = 1, padding = "0 2.5rem", hasLine = false} = props;
+    const {
+        destination,
+        content,
+        target = "_blank",
+        padding = "0",
+        margin = "0",
+        fontSize = "1rem",
+        fontWeight = "400",  
+        textTransform = "none", 
+        letterSpacing = "0",
+        hasLine = false,
+        underlineHeight = 3,
+    } = props;
     return (
         <>
             <Box 
                 sx={{
+                    m: margin,
                     p: padding,
                     position: "relative",
                     "&::after": { // white line after a link
@@ -22,12 +35,14 @@ function NavigationLink(props) {
                 }}
             >
                 <Link
-                    href={props.destination} 
+                    href={destination} 
                     underline="none"
+                    target={target}
                     color="var(--mainColor)"
                     sx={{
                         position: "relative",
-                        fontSize: small ? "0.7rem" : "0.9rem",
+                        fontSize: fontSize,
+                        fontWeight: fontWeight,
                         textTransform: textTransform,
                         letterSpacing: letterSpacing,
                         cursor: "pointer",
@@ -43,12 +58,12 @@ function NavigationLink(props) {
                         },
                         "&:hover": {
                             "&::before": {
-                                height: small ? 3 : 4,
+                                height: underlineHeight,
                             },
                         }
                     }}
                 >
-                    {props.content}
+                    {content}
                 </Link>
             </Box>
         </>

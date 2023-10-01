@@ -4,29 +4,30 @@ function Contact() {
     const contactPrompts = [
         {
             prompt: "Seeking advertising or partnership opportunities?",
-            address: "supercareer@example.com",
+            address: "mailto:supercareer@example.com",
         },
         {
             prompt: "Need support with a course billing or support issue?",
-            address: "coolsupport@example.com",
+            address: "mailto:coolsupport@example.com",
         },
         {
             prompt: "Are you a member of the press and you want to write about us?",
-            address: "press@example.com",
+            address: "mailto:press@example.com",
         },
         {
             prompt: "Got a new product and you want to share with EngiWorld readers?",
-            address: "ohwow@example.com",
+            address: "mailto:ohwow@example.com",
         },
         {
             prompt: "Looking to license your content?",
-            address: "license@example.com",
+            address: "mailto:license@example.com",
         },
     ]
     return (
         <Container 
             maxWidth="md" 
             sx={{
+                my: "6rem",
                 textAlign: "center"
             }}
         >

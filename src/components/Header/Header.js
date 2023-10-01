@@ -9,6 +9,44 @@ import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';
 
 function Header() {
+    const data = {
+        navLinks: [
+            {
+                name: "home",
+                link: "/",
+            },
+            {
+                name: "about",
+                link: "/about",
+            },
+            {
+                name: "contact",
+                link: "/contact",
+            },
+            {
+                name: "404",
+                link: "/404",
+            },
+        ],
+        socialLinks: [
+            {
+                icon: <FacebookRoundedIcon />,
+                destination: "https://www.facebook.com/"
+            },
+            {
+                icon: <TwitterIcon />,
+                destination: "https://twitter.com/"
+            },
+            {
+                icon: <InstagramIcon />,
+                destination: "https://www.instagram.com/"
+            },
+            {
+                icon: <EmailRoundedIcon />,
+                destination: "mailto:dummymailunreal@example.com"
+            },
+        ]
+    }
     return (
         <Grid
             container
@@ -16,12 +54,17 @@ function Header() {
             justifyContent="space-between"
             alignItems="center"
             sx={{
-                p: "1rem 2rem",
+                mb: "3rem",
+                p: "1rem 2rem 1rem 1rem",
                 borderBottom: "1px black solid",
                 borderColor: "gray",
             }}
         >
-            <Grid item component="nav" xs={10} sm={8} md={6}>
+            <Grid 
+                item 
+                component="nav"
+                xs={10} sm={8} md={6}
+            >
                 <Box 
                     component="nav" 
                     sx={{
@@ -61,13 +104,23 @@ function Header() {
                         </Typography>
                     </Box>
 
-                    <NavigationLink content="Home" hasLine destination="/" />        
-
-                    <NavigationLink content="About" hasLine destination="/about" />
-
-                    <NavigationLink content="Contact" hasLine destination="/contact" />
-
-                    <NavigationLink content="NotFound(Temporary)" destination="/fsaass" />
+                    {
+                        data.navLinks.map((item, index) => {
+                            return (
+                                <NavigationLink 
+                                    key={index}
+                                    content={item.name} 
+                                    destination={item.link} 
+                                    padding="0 2.5rem"
+                                    fontSize="0.9rem"
+                                    letterSpacing="1"
+                                    textTransform="uppercase"
+                                    hasLine
+                                    underlineHeight={4}
+                                />
+                            )
+                        })
+                    }
                 </Box>
             </Grid>
 
@@ -98,13 +151,13 @@ function Header() {
                             gap: "0.8rem",
                         }}
                     >
-                        <SocialLink destination="https://www.facebook.com/" icon={<FacebookRoundedIcon />} />
-                        
-                        <SocialLink destination="https://twitter.com/" icon={<TwitterIcon />} />
-                        
-                        <SocialLink destination="https://www.instagram.com/" icon={<InstagramIcon />} />
-                        
-                        <SocialLink destination="mailto:dummymailunreal@example.com" icon={<EmailRoundedIcon />} />
+                        {
+                            data.socialLinks.map((item, index) => {
+                                return (
+                                    <SocialLink key={index} destination={item.destination} icon={item.icon} />
+                                );
+                            })
+                        }
                     </Box>
 
                     <Link 
