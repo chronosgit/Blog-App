@@ -4,8 +4,7 @@ function SocialLink(props) {
     return (
         <Link
             href={props.destination} 
-            target="_blank" 
-            rel="noopener noreferrer"
+            target="_blank"
             sx={{
                 color: "var(--mainColor)",
             }} 

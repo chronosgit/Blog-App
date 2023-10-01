@@ -77,9 +77,8 @@ function HomeHero(props) {
                         />
 
                         <Typography
-                            component="h1"
                             sx={{
-                                p: "0 3px",
+                                px: "3px",
                                 fontWeight: "300",
                             }}
                         >

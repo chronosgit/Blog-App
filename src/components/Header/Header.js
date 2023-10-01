@@ -1,9 +1,9 @@
+import { Box, Typography, Link, Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-import { Box, Typography, Link, Grid } from '@mui/material';
 
 import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';

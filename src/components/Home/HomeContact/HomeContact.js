@@ -24,7 +24,6 @@ function HomeContact() {
                     width="10%"
                     style={{
                         flex: "0.3",
-                        border: "none",
                         borderRadius: "50%",
                         backgroundImage: "url(/images/home/gigachad.jpg)",
                         objectFit: "contain",
@@ -61,12 +60,13 @@ function HomeContact() {
                         sx={{
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "top",
+                            alignItems: "center",
                             gap: "0.5rem",
                         }}
                     >
                         <TextField
-                            placeholder="E-MAIL"
+                            placeholder="UNAVAILABLE"
+                            disabled // temporary, until email writing logic is implemented
                             sx={{
                                 backgroundColor: "var(--backgroundColor)",
                             }}

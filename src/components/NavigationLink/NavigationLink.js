@@ -4,14 +4,14 @@ function NavigationLink(props) {
     const {
         destination,
         content,
-        target = "_blank",
+        target = "_self",
         padding = "0",
         margin = "0",
         fontSize = "1rem",
         fontWeight = "400",  
         textTransform = "none", 
         letterSpacing = "0",
-        hasLine = false,
+        hasLine = false, // white line to the right, like in the header
         underlineHeight = 3,
     } = props;
     return (

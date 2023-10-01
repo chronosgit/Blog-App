@@ -59,7 +59,7 @@ function About() {
             <Typography
                 sx={{
                     mb: "2rem",
-                    p: "0 2rem",
+                    px: "2rem",
                     fontStyle: "italic",
                 }}
             >
@@ -103,7 +103,6 @@ function About() {
             </Typography>
 
             <Typography
-                component="h2"
                 sx={{
                     fontStyle: "italic",
                 }}
