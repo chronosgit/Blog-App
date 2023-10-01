@@ -1,6 +1,58 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+
+import { Box, Button, Container, TextField, Typography, Snackbar, IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
 function HomeContact() {
+    const validEmail = new RegExp(
+        '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
+     );
+    const [userContactEmail, setUserContactEmail] = useState("")
+    const [isEmailAppropriate, setIsEmailAppropriate] = useState(true);
+    const [open, setOpen] = useState(false);
+
+    function onContactEmailChange(e) {
+        setIsEmailAppropriate(true);
+        setUserContactEmail(e.target.value);
+    }
+
+    function submitUserContactEmail(e) {
+        if(validateUserContactEmail()) {
+            console.log(`The user's email ${userContactEmail} has been sent!`);
+            setOpen(true);
+        }
+        setUserContactEmail("");
+    }
+    
+    function validateUserContactEmail() {
+        if(!validEmail.test(userContactEmail)) {
+            setIsEmailAppropriate(false);
+            return false;
+        }
+        return true;
+    }
+
+    function handleSuccessMessageClose(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+    
+        setOpen(false);
+    };
+
+    const action = (
+        <>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleSuccessMessageClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </>
+    );
+
     return (
         <Box
             sx={{
@@ -58,6 +110,7 @@ function HomeContact() {
 
                     <Box
                         sx={{
+                            mb: "1rem",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
@@ -65,11 +118,17 @@ function HomeContact() {
                         }}
                     >
                         <TextField
-                            placeholder="UNAVAILABLE"
-                            disabled // temporary, until email writing logic is implemented
+                            variant="standard"
+                            error={isEmailAppropriate ? false : true}
+                            placeholder="E-MAIL"
+                            name="userContactEmail"
+                            value={userContactEmail}
+                            helperText={!isEmailAppropriate && "Inappropriate email form"}
                             sx={{
+                                p: "0.5rem",
                                 backgroundColor: "var(--backgroundColor)",
                             }}
+                            onChange={onContactEmailChange}
                         >
 
                         </TextField>
@@ -84,10 +143,19 @@ function HomeContact() {
                                     opacity: "0.9",
                                 }
                             }}
+                            onClick={submitUserContactEmail}
                         >
                             JOIN THE CO
                         </Button>
                     </Box>
+
+                    <Snackbar
+                        open={open}
+                        autoHideDuration={6000}
+                        onClose={handleSuccessMessageClose}
+                        message="E-mail sent!"
+                        action={action}
+                    />
                 </Box>
             </Container>
         </Box>
