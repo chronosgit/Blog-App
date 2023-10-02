@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Link } from "@mui/material";
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -88,13 +88,41 @@ function Footer() {
                 Engi<span className="yellow">World</span>
             </Typography>
 
-            <Typography
+            <Box
                 sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    color: "var(--mainColor)",
                     fontSize: "0.9rem",
                 }}
             >
-                © {currentYear} EngiWorld. All rights reserved.
-            </Typography>
+                <Typography
+                    sx={{
+                        fontSize: "inherit",
+                    }}
+                >
+                    © {currentYear} EngiWorld. All rights reserved.
+                </Typography>
+
+                <Link
+                    href="/terms-of-use"
+                    sx={{
+                        color: "var(--mainColor)",
+                    }}
+                >
+                    Terms of Use
+                </Link>
+                
+                <Link
+                    href="/privacy"
+                    sx={{
+                        color: "var(--mainColor)",
+                    }}
+                >
+                    Privacy Policy
+                </Link>
+            </Box>
         </Box>
     )
 }
