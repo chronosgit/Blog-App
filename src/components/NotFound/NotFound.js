@@ -1,10 +1,32 @@
+import { Box, Typography } from "@mui/material";
+
 function NotFound() {
     return (
-        <div style={{textAlign: "center", margin: "5rem"}}>
-            <p>Imagine not hitting your urls.... bruh</p>
-            <a href="/">Go home</a>
-        </div>
-        // temporary design
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center"
+            }}
+        >
+            <img
+                src="/images/404/404.avif"
+                alt="404 error"
+                width="30%"
+                style={{
+
+                }}
+            />
+
+            <Typography
+                sx={{
+                    mb: "1rem",
+                    fontWeight: "700",
+                }}
+            >
+                Such page doesn't exist
+            </Typography>
+        </Box>
     )
 }
 

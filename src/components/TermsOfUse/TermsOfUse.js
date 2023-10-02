@@ -33,6 +33,8 @@ function TermsOfUse() {
                             key={index}
                             sx={{
                                 mb: "5rem",
+                                letterSpacing: "inherit",
+                                lineHeight: "inherit",
                             }}
                         >
                             <span style={{fontWeight: "900"}}>{item.name} </span>

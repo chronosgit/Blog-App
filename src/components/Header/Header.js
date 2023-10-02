@@ -23,10 +23,6 @@ function Header() {
                 name: "contact",
                 link: "/contact",
             },
-            {
-                name: "404",
-                link: "/404",
-            },
         ],
         socialLinks: [
             {
