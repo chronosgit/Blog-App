@@ -55,6 +55,7 @@ function HomeStories() {
     return (
         <Container maxWidth="lg">
             <Typography
+                component="h2"
                 sx={{
                     m: "5rem 0 3rem 0",
                     fontSize: "2rem",

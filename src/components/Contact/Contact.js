@@ -38,7 +38,6 @@ function Contact() {
                     m: "6rem",
                     fontSize: "2rem",
                     fontStyle: "italic",
-                    fontFamily: "sans",
                     fontWeight: "600"
                 }}
             >

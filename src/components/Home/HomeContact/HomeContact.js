@@ -7,6 +7,7 @@ function HomeContact() {
     const validEmail = new RegExp(
         '^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
      );
+
     const [userContactEmail, setUserContactEmail] = useState("")
     const [isEmailAppropriate, setIsEmailAppropriate] = useState(true);
     const [open, setOpen] = useState(false);
@@ -32,21 +33,13 @@ function HomeContact() {
         return true;
     }
 
-    function handleSuccessMessageClose(event, reason) {
-        if (reason === 'clickaway') {
-            return;
-        }
-    
-        setOpen(false);
-    };
-
     const action = (
         <>
             <IconButton
                 size="small"
                 aria-label="close"
                 color="inherit"
-                onClick={handleSuccessMessageClose}
+                onClick={() => setOpen(false)}
             >
                 <CloseIcon fontSize="small" />
             </IconButton>
@@ -56,13 +49,14 @@ function HomeContact() {
     return (
         <Box
             sx={{
+                mb: "2rem",
                 backgroundColor: "var(--secondaryColor)",
             }}
         >
             <Container 
                 maxWidth="md"
                 sx={{
-                    height: "30rem",
+                    height: "20rem",
                     py: "3rem",
                     display: "flex",
                     justifyContent: "space-between",
@@ -89,6 +83,7 @@ function HomeContact() {
                     }}
                 >
                     <Typography
+                        component="h2"
                         sx={{
                             my: "1rem",
                             fontSize: "2rem",
@@ -151,7 +146,7 @@ function HomeContact() {
                     <Snackbar
                         open={open}
                         autoHideDuration={6000}
-                        onClose={handleSuccessMessageClose}
+                        onClose={() => setOpen(false)}
                         message="E-mail sent!"
                         action={action}
                     />

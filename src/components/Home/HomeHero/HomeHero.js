@@ -49,11 +49,10 @@ function HomeHero(props) {
                         </Typography>
 
                         <Typography
-                            component="h1"
+                            component="h2"
                             sx={{
                                 mb: "1rem",
                                 px: "3px",
-                                fontFamily: "sans",
                                 fontSize: "1.5rem",
                                 fontStyle: "italic",
                                 fontWeight: "900",
