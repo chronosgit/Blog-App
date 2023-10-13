@@ -81,7 +81,7 @@ function SignUp() {
             >
                 Sign Up
             </Typography>
-            <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validEmail?"Input":"InvalidInput"}>
+            <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validEmail||!email?"Input":"InvalidInput"}>
                 <InputLabel htmlFor="outlined-email">Email</InputLabel>
                 <OutlinedInput
                     id="outlined-email"
@@ -102,7 +102,7 @@ function SignUp() {
                     {!validEmail&&email?"Provided address is not in the proper email format.":""}
                 </Typography>
             </FormControl>
-            <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validUName?"Input":"InvalidInput"}>
+            <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validUName||!uName?"Input":"InvalidInput"}>
                 <InputLabel htmlFor="outlined-uname">Username</InputLabel>
                 <OutlinedInput
                     id="outlined-uname"
@@ -123,7 +123,7 @@ function SignUp() {
                     {!validUName&&uName?"Your username must start with a letter and consist of 3 to 30 symbols":""}
                 </Typography>
             </FormControl>
-            <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validPwd?"Input":"InvalidInput"}>
+            <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validPwd||!pwd?"Input":"InvalidInput"}>
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
@@ -155,7 +155,7 @@ function SignUp() {
                     {!validPwd&&pwd?"Your password must contain at least 8 symbols, including lowercase and uppercase letters, numbers and special symbols.":""}
                 </Typography>
             </FormControl>
-            <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validMPwd?"Input":"InvalidInput"}>
+            <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validMPwd||!mPwd?"Input":"InvalidInput"}>
                 <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
                 <OutlinedInput
                     id="outlined-adornment-password"
