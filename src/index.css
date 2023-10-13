@@ -33,3 +33,17 @@ body {
 .yellow {
 	color: var(--secondaryColor);
 }
+
+input[type=password]::-ms-reveal, input[type=password]::-ms-clear
+{
+    display: none;
+}
+
+& .InvalidInput>label.Mui-focused {
+	color: red;
+}
+& .InvalidInput>.MuiOutlinedInput-root {
+	&.Mui-focused fieldset {
+	border-color: red;
+	}
+}

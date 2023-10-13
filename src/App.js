@@ -9,6 +9,8 @@ import NotFound from "./components/NotFound/NotFound";
 import Home from "./components/Home/Home";
 import TermsOfUse from './components/TermsOfUse/TermsOfUse';
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
+import SignIn from "./components/Auth/SignIn";
+import SignUp from "./components/Auth/SignUp";
 
 function App() {
 	const THEME = createTheme({
@@ -41,6 +43,8 @@ function App() {
 					<Route path="/contact" element={<Contact />} />
 					<Route path="/terms-of-use" element={<TermsOfUse />} />
 					<Route path="/privacy" element={<PrivacyPolicy />} />
+					<Route path="/signin" element={<SignIn />} />
+					<Route path="/signup" element={<SignUp />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</ThemeProvider>
