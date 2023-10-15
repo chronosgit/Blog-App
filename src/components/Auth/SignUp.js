@@ -52,14 +52,7 @@ function SignUp() {
         setValidMPwd(match);
     }, [pwd,mPwd]);
 
-    useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-
-        // WORKING ON IT CURRENTLY
-    }, []);
-
-    const setAllStatesTrue = () => {
+    const resetAllStates = () => {
         setEmail("");
         setUName("");
         setPwd("");
@@ -78,7 +71,7 @@ function SignUp() {
         const copyEmail = email;
         const copyUsername = uName;
         const copyPassword = pwd;
-        setAllStatesTrue();
+        resetAllStates();
 
         let data = {};
         await axios.post(
