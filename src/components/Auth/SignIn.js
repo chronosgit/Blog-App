@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import {Link,Container,Typography,IconButton,Button,
     FormControl,InputAdornment,InputLabel,OutlinedInput} from '@mui/material';
 import { useState } from 'react';
@@ -6,12 +8,39 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function SignIn() {
     const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (e) => {
         e.preventDefault();
     };
+
+    const handleButtonClick = async () => {
+        const copyEmail = email;
+        const copyPassword = password;
+        setEmail("");
+        setPassword("");
+
+        let data = {};
+        await axios.post(
+            "http://localhost:3001/auth/login/", // url
+            {email: copyEmail, password: copyPassword}, // body 
+            {headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}} // headers, params, auth etc.
+        )
+        .then(function (response) {
+            data = response.data;
+            localStorage.setItem('access-token', data.accessToken);
+            localStorage.setItem('refresh-token', data.refreshToken);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+        console.log(data);
+    }
+
     return(
         <Container 
             maxWidth="md" 
@@ -40,6 +69,8 @@ function SignIn() {
                     id="outlined-email"
                     type="text"
                     label="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
             </FormControl>
             <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined">
@@ -48,17 +79,19 @@ function SignIn() {
                     id="outlined-adornment-password"
                     type={showPassword ? 'text' : 'password'}
                     endAdornment={
-                    <InputAdornment position="end">
-                        <IconButton
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                        >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                    </InputAdornment>
+                        <InputAdornment position="end">
+                            <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                            >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
                     }
                     label="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
             </FormControl>
             <FormControl sx={{
@@ -73,7 +106,10 @@ function SignIn() {
                     color: "var(--secondaryColor)",
                     opacity: "0.9",
                 }}}>
-                <Button sx={{color:'inherit'}}>
+                <Button 
+                    sx={{color:'inherit'}}
+                    onClick={handleButtonClick}
+                >
                     Sign in
                 </Button>
             </FormControl>

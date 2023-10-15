@@ -22,9 +22,6 @@ body {
 }
 
 :root {
-	/* --backgroundColor: #2b2b2b;
-	--mainColor: #fffffff1;
-	--secondaryColor: #ffe600; */
 	--backgroundColor: #fffffff1;
 	--mainColor: #2b2b2b;
 	--secondaryColor: #fcd059;
