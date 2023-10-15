@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import {Link,Container,Typography,IconButton,Button,
     FormControl,InputAdornment,InputLabel,OutlinedInput} from '@mui/material';
 import { useState, useEffect } from 'react';
@@ -7,6 +9,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from "../../api/axios";
 
 function SignUp() {
+    const navigate = useNavigate();
+
     const [showPassword, setShowPassword] = useState(false);
     const [showCPassword, setShowCPassword] = useState(false);
 
@@ -73,15 +77,19 @@ function SignUp() {
         const copyPassword = pwd;
         resetAllStates();
 
-        let data = {};
         await axios.post(
-            "http://localhost:3001/auth/register/", // url
+            "/auth/register/", // url
             {email: copyEmail, username: copyUsername, password: copyPassword}, // body 
-            {headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}} // headers, params, auth etc.
+            {
+                headers: {"Content-Type": "application/json; charset=UTF-8"},
+                withCredentials: true,
+            } // headers, params, auth etc.
         )
         .then(function (response) {
-            data = response.data;
-            console.log(data);
+            const accessToken = response.data.accessToken;
+            localStorage.removeItem("access-token");
+            localStorage.setItem("access-token", accessToken);
+            navigate("/");
         })
         .catch(function (error) {
             console.log(error);

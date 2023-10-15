@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import {Link,Container,Typography,IconButton,Button,
     FormControl,InputAdornment,InputLabel,OutlinedInput} from '@mui/material';
@@ -6,7 +6,11 @@ import { useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import axios from "../../api/axios";
+
 function SignIn() {
+    const navigate = useNavigate();
+
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,22 +27,23 @@ function SignIn() {
         setEmail("");
         setPassword("");
 
-        let data = {};
         await axios.post(
-            "http://localhost:3001/auth/login/", // url
+            "/auth/login/", // url
             {email: copyEmail, password: copyPassword}, // body 
-            {headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}} // headers, params, auth etc.
+            {
+                headers: {"Content-Type": "application/json; charset=UTF-8"}, 
+                withCredentials: true
+            } // headers, params, auth etc.
         )
-        .then(function (response) {
-            data = response.data;
-            localStorage.setItem('access-token', data.accessToken);
-            localStorage.setItem('refresh-token', data.refreshToken);
+        .then(function(response){
+            const accessToken = response.data.accessToken;
+            localStorage.removeItem("access-token");
+            localStorage.setItem("access-token", accessToken);
+            navigate("/");
         })
-        .catch(function (error) {
+        .catch(function(error) {
             console.log(error);
         });
-
-        console.log(data);
     }
 
     return(

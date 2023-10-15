@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Box, Typography, Link, Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
@@ -7,6 +10,8 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 
 import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';
+
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 function Header() {
     const data = {
@@ -43,6 +48,37 @@ function Header() {
             },
         ]
     }
+
+    const [user, setUser] = useState();
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+
+        const getUser = async () => {
+            try {
+                const response = await axiosPrivate.get("/user", {
+                    signal: controller.signal
+                });
+                console.log(response.data);
+
+                isMounted && setUser(response.data);
+            } catch(error) {
+                console.log(error);
+                navigate("/signin");
+            }
+        }
+
+        getUser();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
+    }, []);
+
     return (
         <Grid
             container
