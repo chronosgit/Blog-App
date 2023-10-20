@@ -44,3 +44,15 @@ input[type=password]::-ms-reveal, input[type=password]::-ms-clear
 	border-color: red;
 	}
 }
+
+.header_icons {
+	color: var(--mainColor);
+	cursor: pointer;
+	border-radius: .2em;
+	transition: all 50ms cubic-bezier(0.4, 0, 0.2, 1) 50ms
+}
+.header_icons:hover {
+	background-color: var(--mainColor);
+	color: var(--secondaryColor);
+	opacity: 0.9
+}

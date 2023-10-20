@@ -11,6 +11,13 @@ import TermsOfUse from './components/TermsOfUse/TermsOfUse';
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
+import Post from './components/Post/Post';
+import NewPost from './components/NewPost/NewPost';
+import Search from './components/Search/Search';
+import Notifications from './components/Notifications/Notifications';
+import Settings from './components/Settings/Settings';
+import Profile from './components/Profile/Profile';
+import Feed from './components/Feed/Feed';
 
 function App() {
 	const THEME = createTheme({
@@ -38,13 +45,21 @@ function App() {
 
 			<ThemeProvider theme={THEME}>
 				<Routes>
-					<Route path="/" element={<Home />} />
+					<Route path="/" element={<Feed />} />
 					<Route path="/about" element={<About />} />
 					<Route path="/contact" element={<Contact />} />
 					<Route path="/terms-of-use" element={<TermsOfUse />} />
 					<Route path="/privacy" element={<PrivacyPolicy />} />
 					<Route path="/signin" element={<SignIn />} />
 					<Route path="/signup" element={<SignUp />} />
+					<Route path="/home" element={<Home />} />
+					<Route path="/feed" element={<Feed />} />
+					<Route path="/profile/:username" element={<Profile />} />
+					<Route path="/settings/:username" element={<Settings />} />
+					<Route path="/notifications/:username" element={<Notifications />} />
+					<Route path="/post/:id" element={<Post />} />
+					<Route path="/post/new" element={<NewPost />} />
+					<Route path="/search" element={<Search />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</ThemeProvider>
