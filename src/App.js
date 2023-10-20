@@ -59,7 +59,7 @@ function App() {
 					<Route path="/notifications/:username" element={<Notifications />} />
 					<Route path="/post/:id" element={<Post />} />
 					<Route path="/post/new" element={<NewPost />} />
-					<Route path="/search" element={<Search />} />
+					<Route path="/search/:query" element={<Search />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</ThemeProvider>

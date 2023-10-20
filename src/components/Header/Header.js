@@ -169,7 +169,7 @@ function Header() {
                 >
                     <Paper sx={{display: 'flex', alignItems: 'center', padding: '.1em .4em'}}>
                     <TuneIcon className='header_icons' sx={{mr: '.2em'}}></TuneIcon>
-                    <InputBase></InputBase>
+                    <InputBase onKeyDown={(e)=>{if (e.key==="Enter") navigate("/search/:"+e.target.value)}}></InputBase>
                     <Link href="/search"><SearchIcon className='header_icons'
                         sx={{
                             ml: '.2em',
