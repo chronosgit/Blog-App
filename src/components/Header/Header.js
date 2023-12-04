@@ -2,8 +2,9 @@ import { useContext, useEffect } from 'react';
 
 import axios from "axios";
 
-import { Box, Typography, Link, Grid } from '@mui/material';
+import { Box, Typography, Link, Grid, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import TuneIcon from '@mui/icons-material/Tune';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -26,7 +27,7 @@ function Header(props) {
         navLinks: [
             {
                 name: "home",
-                link: "/",
+                link: "/home",
             },
             {
                 name: "about",
@@ -94,6 +95,10 @@ function Header(props) {
                 });
             } catch(error) {
                 console.log(error);
+<<<<<<< HEAD
+=======
+                //navigate("/signin");
+>>>>>>> aa5aff0611605b8a8a741094dd8ca0a6a43840ab
             }
         }
 
@@ -130,8 +135,8 @@ function Header(props) {
                         alignItems: "center",
                         justifyContent: "flex-start",
                     }}
-                >
-                    <Box 
+                ><Link href="/feed" sx={{textDecoration:'none'}}>
+                    <Box
                         sx={{
                             display: "flex",
                             alignItems: "center",
@@ -156,11 +161,12 @@ function Header(props) {
                                 fontWeight: "900",
                                 letterSpacing: 3,
                                 textTransform: "uppercase",
+                                color: 'black',
                             }}
                         >
                             Engi<span className="yellow">World</span>
                         </Typography>
-                    </Box>
+                    </Box></Link>
 
                     {
                         data.navLinks.map((item, index) => {
@@ -191,15 +197,15 @@ function Header(props) {
                         gap: "2rem",
                     }}
                 >
-                    <SearchIcon 
+                    <Paper sx={{display: 'flex', alignItems: 'center', padding: '.1em .4em'}}>
+                    <TuneIcon className='header_icons' sx={{mr: '.2em'}}></TuneIcon>
+                    <InputBase onKeyDown={(e)=>{if (e.key==="Enter") navigate("/search/:"+e.target.value)}}></InputBase>
+                    <Link href="/search"><SearchIcon className='header_icons'
                         sx={{
-                            opacity: 0.8,
-                            cursor: "pointer",
-                            "&:hover": {
-                                opacity: 1,
-                            }
+                            ml: '.2em',
                         }}
-                    />
+                    /></Link>
+                    </Paper>
 
                     <Box
                         sx={{

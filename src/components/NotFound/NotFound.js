@@ -10,7 +10,7 @@ function NotFound() {
             }}
         >
             <img
-                src="/images/404/404.avif"
+                src="/images/404/404.jpg"
                 alt="404 error"
                 width="30%"
                 style={{
