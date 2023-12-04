@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
@@ -14,6 +15,8 @@ import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';
 
 function Header(props) {
+    const navigate = useNavigate();
+
     const {context} = props;
     const usedContext = useContext(context);
     const {user, setUser, profileImageLink, setProfileImageLink, profileImageSrc, setProfileImageSrc} = usedContext;
@@ -95,10 +98,6 @@ function Header(props) {
                 });
             } catch(error) {
                 console.log(error);
-<<<<<<< HEAD
-=======
-                //navigate("/signin");
->>>>>>> aa5aff0611605b8a8a741094dd8ca0a6a43840ab
             }
         }
 
