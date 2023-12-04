@@ -1,15 +1,19 @@
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import axios from "axios";
 
 import {Link,Container,Typography,IconButton,Button,
     FormControl,InputAdornment,InputLabel,OutlinedInput} from '@mui/material';
-import { useState, useEffect } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import axios from "../../api/axios";
-
-function SignUp() {
+function SignUp(props) {
     const navigate = useNavigate();
+
+    const {context} = props;
+    const usedContext = useContext(context);
+    const {setUser, setProfileImageLink, setProfileImageSrc} = usedContext;
 
     const [showPassword, setShowPassword] = useState(false);
     const [showCPassword, setShowCPassword] = useState(false);
@@ -78,7 +82,7 @@ function SignUp() {
         resetAllStates();
 
         await axios.post(
-            "/auth/register/", // url
+            "http://localhost:3001/auth/register/", // url
             {email: copyEmail, username: copyUsername, password: copyPassword}, // body 
             {
                 headers: {"Content-Type": "application/json; charset=UTF-8"},
@@ -89,6 +93,11 @@ function SignUp() {
             const accessToken = response.data.accessToken;
             localStorage.removeItem("access-token");
             localStorage.setItem("access-token", accessToken);
+
+            setUser(response.data);
+            setProfileImageLink(`/profile/${response.data.id}`);
+            setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
+
             navigate("/");
         })
         .catch(function (error) {

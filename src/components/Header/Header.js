@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+
+import axios from "axios";
 
 import { Box, Typography, Link, Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,9 +12,16 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';
 
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+function Header(props) {
+    const {context} = props;
+    const usedContext = useContext(context);
+    const {user, setUser, profileImageLink, setProfileImageLink, profileImageSrc, setProfileImageSrc} = usedContext;
 
-function Header() {
+    const profileImageStyle = {
+        width: 30,
+        height: 30,
+        borderRadius: 50,
+    }
     const data = {
         navLinks: [
             {
@@ -49,25 +57,43 @@ function Header() {
         ]
     }
 
-    const [user, setUser] = useState();
-    const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
 
         const getUser = async () => {
             try {
-                const response = await axiosPrivate.get("/user", {
-                    signal: controller.signal
+                await axios.get("http://localhost:3001/refresh/", {
+                    withCredentials: true,
+                    credentials: "include",
+                })
+                .then(response => {
+                    localStorage.removeItem("accessToken");
+                    localStorage.setItem("accessToken", response.data.accessToken);
+                })
+                .catch(error => {
+                    console.log(error);
                 });
-                console.log(response.data);
 
-                isMounted && setUser(response.data);
+                await axios.get("http://localhost:3001/user/", {
+                    signal: controller.signal,
+                    headers: {
+                        "Content-Type": "application/json; charset=UTF-8",
+                        'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+                    },
+                })
+                .then(response => {
+                    setUser(response.data);
+                    setProfileImageLink(`/profile/${response.data.id}`);
+                    setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
+
+                    isMounted && setUser(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
             } catch(error) {
                 console.log(error);
-                navigate("/signin");
             }
         }
 
@@ -192,38 +218,49 @@ function Header() {
                         }
                     </Box>
 
-                    <Link 
-                        href="/signin"
-                        underline="none"
-                        sx={{
-                            position: "relative",
-                            fontSize: "0.8rem",
-                            color: "var(--mainColor)",
-                            textTransform: "uppercase",
-                            letterSpacing: "2px",
-                            cursor: "pointer",
-                            "&::before": {
-                                content: '""',
-                                position: "absolute",
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                width: 0,
-                                height: "4px",
-                                textAlign: "center",
-                                margin: "0 auto",
-                                backgroundColor: "red",
-                                transition: "all 0.3s ease",
-                            },
-                            "&:hover": {
-                                "&::before": {
-                                    width: 1
-                                },
-                            }
-                        }}
-                    >
-                        Sign In
-                    </Link>
+                    {
+                        Object.keys(user).length > 0 ?
+                            <a href={profileImageLink}>
+                                <img
+                                    src={profileImageSrc}
+                                    alt="profileImage"
+                                    style={profileImageStyle}
+                                />
+                            </a>
+                        :
+                            <Link 
+                                href="/signin"
+                                underline="none"
+                                sx={{
+                                    position: "relative",
+                                    fontSize: "0.8rem",
+                                    color: "var(--mainColor)",
+                                    textTransform: "uppercase",
+                                    letterSpacing: "2px",
+                                    cursor: "pointer",
+                                    "&::before": {
+                                        content: '""',
+                                        position: "absolute",
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        width: 0,
+                                        height: "4px",
+                                        textAlign: "center",
+                                        margin: "0 auto",
+                                        backgroundColor: "red",
+                                        transition: "all 0.3s ease",
+                                    },
+                                    "&:hover": {
+                                        "&::before": {
+                                            width: 1
+                                        },
+                                    }
+                                }}
+                            >
+                                Sign In
+                            </Link>
+                    }
                 </Box>
             </Grid>
         </Grid>

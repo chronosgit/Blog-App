@@ -1,15 +1,19 @@
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import axios from "axios";
 
 import {Link,Container,Typography,IconButton,Button,
     FormControl,InputAdornment,InputLabel,OutlinedInput} from '@mui/material';
-import { useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import axios from "../../api/axios";
-
-function SignIn() {
+function SignIn(props) {
     const navigate = useNavigate();
+
+    const {context} = props;
+    const usedContext = useContext(context);
+    const {setUser, setProfileImageLink, setProfileImageSrc} = usedContext;
 
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
@@ -28,17 +32,23 @@ function SignIn() {
         setPassword("");
 
         await axios.post(
-            "/auth/login/", // url
+            "http://localhost:3001/auth/login/", // url
             {email: copyEmail, password: copyPassword}, // body 
             {
-                headers: {"Content-Type": "application/json; charset=UTF-8"}, 
-                withCredentials: true
-            } // headers, params, auth etc.
+                headers: {"Content-Type": "application/json; charset=UTF-8"},
+                withCredentials: true,
+                credentials: "include",
+            }
         )
         .then(function(response){
             const accessToken = response.data.accessToken;
-            localStorage.removeItem("access-token");
-            localStorage.setItem("access-token", accessToken);
+            localStorage.removeItem("accessToken");
+            localStorage.setItem("accessToken", accessToken);
+
+            setUser(response.data);
+            setProfileImageLink(`/profile/${response.data.id}`);
+            setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
+
             navigate("/");
         })
         .catch(function(error) {

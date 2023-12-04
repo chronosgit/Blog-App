@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { createContext, useState } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
 
 import Header from "./components/Header/Header";
@@ -12,7 +13,56 @@ import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
 
+const UserContext = createContext({});
+
+const router = createBrowserRouter([
+	{
+	  	path: "/",
+	  	element: <Home />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/about",
+		element: <About />,
+		errorElement: <NotFound />,
+  	},
+	{
+		path: "/contact",
+		element: <Contact />,
+		errorElement: <NotFound />,
+  	},
+	{
+		path: "/terms-of-use",
+		element: <TermsOfUse />,
+		errorElement: <NotFound />,
+  	},
+	{
+		path: "/privacy",
+		element: <PrivacyPolicy />,
+		errorElement: <NotFound />,
+  	},
+	{
+		path: "/signin",
+	  	element: <SignIn context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/signup",
+	  	element: <SignUp context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "*",
+	  	element: <NotFound />,
+		errorElement: <NotFound />,
+	},
+]);
+
 function App() {
+	const [user, setUser] = useState({});
+	const [profileImageLink, setProfileImageLink] = useState("");
+    const [profileImageSrc, setProfileImageSrc] = useState("");
+
 	const THEME = createTheme({
 		typography: {
 			fontFamily: [
@@ -29,26 +79,19 @@ function App() {
 			].join(','),
 		},
 	});
-	return (
-		<>
-			<div className="App">
-				<Header />
-				<Footer />
-			</div>
 
-			<ThemeProvider theme={THEME}>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/about" element={<About />} />
-					<Route path="/contact" element={<Contact />} />
-					<Route path="/terms-of-use" element={<TermsOfUse />} />
-					<Route path="/privacy" element={<PrivacyPolicy />} />
-					<Route path="/signin" element={<SignIn />} />
-					<Route path="/signup" element={<SignUp />} />
-					<Route path="*" element={<NotFound />} />
-				</Routes>
-			</ThemeProvider>
-		</>
+	return (
+		<UserContext.Provider value={{user, setUser, profileImageLink, setProfileImageLink, profileImageSrc, setProfileImageSrc}}>
+			<div className="App">
+				<ThemeProvider theme={THEME}>
+					<Header context={UserContext} />
+
+					<Footer />
+
+					<RouterProvider router={router} />
+				</ThemeProvider>
+			</div>
+		</UserContext.Provider>
 	);
 }
 
