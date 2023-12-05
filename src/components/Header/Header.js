@@ -1,11 +1,8 @@
 import { useContext, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import { Box, Typography, Link, Grid, InputBase, Paper } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import TuneIcon from '@mui/icons-material/Tune';
+import { Box, Typography, Link, Grid } from '@mui/material';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -15,7 +12,7 @@ import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';
 
 function Header(props) {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const {context} = props;
     const usedContext = useContext(context);
@@ -196,15 +193,15 @@ function Header(props) {
                         gap: "2rem",
                     }}
                 >
-                    <Paper sx={{display: 'flex', alignItems: 'center', padding: '.1em .4em'}}>
+                    {/* <Paper sx={{display: 'flex', alignItems: 'center', padding: '.1em .4em'}}>
                     <TuneIcon className='header_icons' sx={{mr: '.2em'}}></TuneIcon>
-                    <InputBase onKeyDown={(e)=>{if (e.key==="Enter") navigate("/search/:"+e.target.value)}}></InputBase>
+                    <InputBase onKeyDown={(e)=>{if (e.key==="Enter") console.log(1)}}></InputBase>
                     <Link href="/search"><SearchIcon className='header_icons'
                         sx={{
                             ml: '.2em',
                         }}
                     /></Link>
-                    </Paper>
+                    </Paper> */}
 
                     <Box
                         sx={{
