@@ -42,6 +42,8 @@ function SignUp(props) {
     const [validMPwd, setValidMPwd] = useState(false);
 
     const [isFormValid, setIsFormValid] = useState(true);
+    
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         const result = USER_REGEX.test(uName);
@@ -71,6 +73,8 @@ function SignUp(props) {
     }
 
     const handleButtonClick = async () => {
+        setErrorMessage("");
+
         if(!(validEmail && validMPwd && validPwd && validUName)) {
             setIsFormValid(false);
             return false;
@@ -102,6 +106,7 @@ function SignUp(props) {
         })
         .catch(function (error) {
             console.log(error);
+            setErrorMessage(error.response.data.error);
         });
     }
 
@@ -127,6 +132,7 @@ function SignUp(props) {
             >
                 Sign Up
             </Typography>
+            
             <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validEmail || !email ? "Input" : "InvalidInput"}>
                 <InputLabel htmlFor="outlined-email">Email</InputLabel>
                 <OutlinedInput
@@ -136,8 +142,9 @@ function SignUp(props) {
                     required
                     inputProps={{maxLength:30}}
                     value={email}
-                    onChange={(e)=>{setEmail(e.target.value); setIsFormValid(true);}}
+                    onChange={(e)=>{setEmail(e.target.value); setIsFormValid(true)}}
                 />
+
                 <Typography 
                     align="center"
                     component="h4"
@@ -149,6 +156,7 @@ function SignUp(props) {
                     {!validEmail && email ? "Provided address is not in the proper email format." : ""}
                 </Typography>
             </FormControl>
+
             <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validUName || !uName ? "Input" : "InvalidInput"}>
                 <InputLabel htmlFor="outlined-uname">Username</InputLabel>
                 <OutlinedInput
@@ -157,9 +165,10 @@ function SignUp(props) {
                     label="Username"
                     inputProps={{maxLength:30}}
                     value={uName}
-                    onChange={(e)=>{setUName(e.target.value); setIsFormValid(true);}}
+                    onChange={(e)=>{setUName(e.target.value); setIsFormValid(true)}}
                     required
                 />
+
                 <Typography 
                     align="center"
                     component="h4"
@@ -171,6 +180,7 @@ function SignUp(props) {
                     {!validUName && uName ? "Your username must start with a letter and consist of 3 to 30 symbols" : ""}
                 </Typography>
             </FormControl>
+
             <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validPwd || !pwd ? "Input" : "InvalidInput"}>
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                 <OutlinedInput
@@ -178,7 +188,7 @@ function SignUp(props) {
                     required
                     inputProps={{maxLength:30}}
                     value={pwd}
-                    onChange={(e)=>{setPwd(e.target.value); setIsFormValid(true);}}
+                    onChange={(e)=>{setPwd(e.target.value); setIsFormValid(true)}}
                     endAdornment={
                         <InputAdornment position="end">
                             <IconButton
@@ -192,6 +202,7 @@ function SignUp(props) {
                     }
                     label="Password"
                 />
+
                 <Typography 
                     align="center"
                     component="h4"
@@ -203,6 +214,7 @@ function SignUp(props) {
                     {!validPwd && pwd ? "Your password must contain at least 8 symbols, including lowercase and uppercase letters, numbers and special symbols." : ""}
                 </Typography>
             </FormControl>
+
             <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined" className={validMPwd || !mPwd ? "Input" : "InvalidInput"}>
                 <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
                 <OutlinedInput
@@ -210,7 +222,7 @@ function SignUp(props) {
                     required
                     inputProps={{maxLength:30}}
                     value={mPwd}
-                    onChange={(e)=>{setMPwd(e.target.value); setIsFormValid(true);}}
+                    onChange={(e)=>{setMPwd(e.target.value); setIsFormValid(true)}}
                     endAdornment={
                         <InputAdornment position="end">
                             <IconButton
@@ -224,6 +236,7 @@ function SignUp(props) {
                     }
                     label="Confirm Password"
                 />
+
                 <Typography 
                     align="center"
                     component="h4"
@@ -235,6 +248,18 @@ function SignUp(props) {
                     {!validMPwd && mPwd ? "Passwords don't match." : ""}
                 </Typography>
             </FormControl>
+
+            <Typography 
+                align="center"
+                component="h4"
+                sx={{
+                    color: 'red',
+                    fontWeight: "600"
+                }}
+            >
+                {errorMessage.length > 0 && errorMessage}
+            </Typography>
+
             <FormControl sx={{
                 m: 1,
                 width: '30ch',
@@ -251,6 +276,7 @@ function SignUp(props) {
                     Sign up
                 </Button>
             </FormControl>
+
             <Typography 
                 align="center"
                 component="h4"
@@ -261,6 +287,7 @@ function SignUp(props) {
             >
                 {!isFormValid && "Please check if you filled everything correctly."}
             </Typography>
+
             <span>Already have an account? <Link href="/signin">Log in here</Link></span>
         </Container>
     );

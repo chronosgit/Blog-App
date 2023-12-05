@@ -12,6 +12,7 @@ import TermsOfUse from './components/TermsOfUse/TermsOfUse';
 import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
+import Profile from './components/Profile/Profile';
 
 const UserContext = createContext({});
 
@@ -49,6 +50,11 @@ const router = createBrowserRouter([
 	{
 		path: "/signup",
 	  	element: <SignUp context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/profile/:id",
+	  	element: <Profile context={UserContext} />,
 		errorElement: <NotFound />,
 	},
 	{

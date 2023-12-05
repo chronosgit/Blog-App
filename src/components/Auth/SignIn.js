@@ -1,10 +1,12 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 
-import {Link,Container,Typography,IconButton,Button,
-    FormControl,InputAdornment,InputLabel,OutlinedInput} from '@mui/material';
+import {
+    Link, Container, Typography, IconButton, Button, 
+    FormControl, InputAdornment, InputLabel, OutlinedInput
+} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -19,6 +21,16 @@ function SignIn(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isValidEmail, setIsValidEmail] = useState(true);
+
+    const EMAIL_REGEX = /^[A-z]([A-z0-9-_])*@[A-z]([A-z0-9-_])*\.[A-z]([A-z0-9-_])*$/;
+
+    useEffect(() => {
+        const result = EMAIL_REGEX.test(email);
+        setIsValidEmail(result);
+    }, [email])
+
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (e) => {
@@ -26,6 +38,8 @@ function SignIn(props) {
     };
 
     const handleButtonClick = async () => {
+        setErrorMessage("");
+
         const copyEmail = email;
         const copyPassword = password;
         setEmail("");
@@ -53,6 +67,7 @@ function SignIn(props) {
         })
         .catch(function(error) {
             console.log(error);
+            setErrorMessage(error.response.data.error);
         });
     }
 
@@ -78,6 +93,7 @@ function SignIn(props) {
             >
                 Sign In
             </Typography>
+
             <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined">
                 <InputLabel htmlFor="outlined-email">Email</InputLabel>
                 <OutlinedInput
@@ -88,6 +104,18 @@ function SignIn(props) {
                     onChange={(e) => setEmail(e.target.value)}
                 />
             </FormControl>
+
+            <Typography 
+                align="center"
+                component="h4"
+                sx={{
+                    color: 'red',
+                    fontWeight: "600"
+                }}
+            >
+                {!isValidEmail && email && "Provided address is not in the proper email format."}
+            </Typography>
+
             <FormControl sx={{ m: 1, width: '30ch' }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                 <OutlinedInput
@@ -109,6 +137,18 @@ function SignIn(props) {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </FormControl>
+
+            <Typography 
+                align="center"
+                component="h4"
+                sx={{
+                    color: 'red',
+                    fontWeight: "600"
+                }}
+            >
+                {errorMessage.length > 0 && errorMessage}
+            </Typography>
+
             <FormControl sx={{
                 m: 1,
                 width: '30ch',
