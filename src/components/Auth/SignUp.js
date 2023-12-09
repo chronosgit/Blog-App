@@ -80,14 +80,12 @@ function SignUp(props) {
             return false;
         }
 
-        const copyEmail = email;
-        const copyUsername = uName;
-        const copyPassword = pwd;
-        resetAllStates();
+        setShowCPassword(false);
+        setShowPassword(false);
 
         await axios.post(
             "http://localhost:3001/auth/register/", // url
-            {email: copyEmail, username: copyUsername, password: copyPassword}, // body 
+            {email: email, username: uName, password: pwd}, // body 
             {
                 headers: {"Content-Type": "application/json; charset=UTF-8"},
                 withCredentials: true,
@@ -97,6 +95,8 @@ function SignUp(props) {
             const accessToken = response.data.accessToken;
             localStorage.removeItem("access-token");
             localStorage.setItem("access-token", accessToken);
+
+            resetAllStates();
 
             setUser(response.data);
             setProfileImageLink(`/profile/${response.data.id}`);

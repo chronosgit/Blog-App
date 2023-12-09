@@ -40,14 +40,9 @@ function SignIn(props) {
     const handleButtonClick = async () => {
         setErrorMessage("");
 
-        const copyEmail = email;
-        const copyPassword = password;
-        setEmail("");
-        setPassword("");
-
         await axios.post(
             "http://localhost:3001/auth/login/", // url
-            {email: copyEmail, password: copyPassword}, // body 
+            {email: email, password: password}, // body 
             {
                 headers: {"Content-Type": "application/json; charset=UTF-8"},
                 withCredentials: true,
@@ -58,6 +53,9 @@ function SignIn(props) {
             const accessToken = response.data.accessToken;
             localStorage.removeItem("accessToken");
             localStorage.setItem("accessToken", accessToken);
+
+            setEmail("");
+            setPassword("");
 
             setUser(response.data);
             setProfileImageLink(`/profile/${response.data.id}`);
@@ -101,7 +99,7 @@ function SignIn(props) {
                     type="text"
                     label="Email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {setEmail(e.target.value); setErrorMessage("")}}
                 />
             </FormControl>
 
@@ -134,7 +132,7 @@ function SignIn(props) {
                     }
                     label="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {setPassword(e.target.value); setErrorMessage("")}}
                 />
             </FormControl>
 

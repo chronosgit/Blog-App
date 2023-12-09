@@ -28,6 +28,10 @@ function Header(props) {
                 link: "/",
             },
             {
+                name: "feed",
+                link: "/feed",
+            },
+            {
                 name: "about",
                 link: "/about",
             },
