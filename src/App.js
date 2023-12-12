@@ -14,6 +14,7 @@ import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
 import Profile from './components/Profile/Profile';
 import Feed from './components/Feed/Feed';
+import Writer from "./components/Writer/Writer";
 
 const UserContext = createContext({});
 
@@ -61,6 +62,11 @@ const router = createBrowserRouter([
 	{
 		path: "/feed",
 	  	element: <Feed context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/writer",
+	  	element: <Writer context={UserContext} />,
 		errorElement: <NotFound />,
 	},
 	{

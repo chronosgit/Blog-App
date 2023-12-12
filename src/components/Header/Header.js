@@ -102,7 +102,7 @@ function Header(props) {
                 signal: controller.signal,
                 headers: {
                     "Content-Type": "application/json; charset=UTF-8",
-                    'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+                    "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
                 },
             })
             .then(response => {

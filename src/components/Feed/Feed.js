@@ -29,8 +29,9 @@ function Feed() {
 
     return (
         <Box sx={{
-            position: "relative",
-            minHeight: "50vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
         }}>
             <Box sx={createPostBoxStyles}>
                 <Link
@@ -45,12 +46,6 @@ function Feed() {
             <BottomNavigation
                 showLabels
                 value={activeFilter}
-                sx={{
-                    position: "absolute",
-                    bottom: 1,
-                    left: 1,
-                    right: 1,
-                }}
                 onChange={(event, newValue) => {
                     setActiveFilter(newValue);
                 }}

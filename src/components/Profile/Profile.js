@@ -17,9 +17,11 @@ function Profile(props) {
         const userId = window.location.pathname.slice(9);
 
         const getUserProfile = async () => {
-            await axios.get(`http://localhost:3001/user/${userId}`).then(response => {
+            await axios.get(`http://localhost:3001/user/${userId}`)
+            .then(response => {
                 setUser(response.data);
-            }).catch(error => {
+            })
+            .catch(error => {
                 console.log(error);
             })
         };
@@ -54,11 +56,7 @@ function Profile(props) {
                     style={profileImageStyle}
                 />
 
-                <Box
-                    sx={{
-                        py: "1rem",
-                    }}
-                >
+                <Box sx={{ py: "1rem" }}>
                     <Typography
                         className="profile_username"
                         component="h1"
@@ -70,14 +68,7 @@ function Profile(props) {
                         {user.username}
                     </Typography>
 
-                    <Typography 
-                        component="h1"
-                        sx={{
-                            mb: "1rem",
-                        }}
-                    >
-                        {user.email}
-                    </Typography>
+                    <Typography component="h1" sx={{ mb: "1rem" }}>{user.email}</Typography>
 
                     <Typography paragraph>{user.bio}</Typography>
                 </Box>
