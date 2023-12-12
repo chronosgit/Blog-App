@@ -55,13 +55,7 @@ function About() {
                 About
             </Typography>
 
-            <Typography
-                sx={{
-                    mb: "2rem",
-                    px: "2rem",
-                    fontStyle: "italic",
-                }}
-            >
+            <Typography sx={{ mb: "2rem", px: "2rem", fontStyle: "italic" }}>
                 We're thrilled you're here! Now, let us tell you a little bit about ourselves.
             </Typography>
 
@@ -101,22 +95,11 @@ function About() {
                 Our Mission
             </Typography>
 
-            <Typography
-                sx={{
-                    fontStyle: "italic",
-                }}
-            >
+            <Typography sx={{ fontStyle: "italic" }}>
                 EngiWorld ignites the creative spark in engineers.
             </Typography>
 
-            <Typography
-                paragraph
-                sx={{
-                    my: "2rem",
-                    letterSpacing: 1,
-                    lineHeight: "1.5rem",
-                }}
-            >
+            <Typography paragraph sx={{ my: "2rem", letterSpacing: 1, lineHeight: "1.5rem" }}>
                 EngiWorld is a blog website that inspires, educates and entertains engineers with a creative spirit. 
                 It is essential in all aspects of an engineers's life: 
                 building career, forging strong friendships and relationships and entertaining others. 
@@ -126,12 +109,7 @@ function About() {
             {
                 ourFeatures.map((item, index) => {
                     return (
-                        <Box
-                            key={index}
-                            sx={{
-                                mt: "1rem",
-                            }}
-                        >
+                        <Box key={index} sx={{ mt: "1rem" }}>
                             <Typography
                                 component="h2"
                                 sx={{
@@ -143,14 +121,7 @@ function About() {
                             >
                                 {item.name}
                             </Typography>
-                            <Typography
-                                paragraph
-                                sx={{
-                                    my: "2rem",
-                                    letterSpacing: 1,
-                                    lineHeight: "1.5rem",
-                                }}
-                            >
+                            <Typography paragraph sx={{ my: "2rem", letterSpacing: 1, lineHeight: "1.5rem" }}>
                                 {item.content}
                             </Typography>
                         </Box>

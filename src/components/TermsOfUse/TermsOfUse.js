@@ -5,13 +5,7 @@ import termsOfUse from "./data";
 function TermsOfUse() {
 
     return (
-        <Container
-            maxWidth="md"
-            sx={{
-                lineHeight: "2rem",
-                letterSpacing: 0.4,
-            }}
-        >
+        <Container maxWidth="md" sx={{ lineHeight: "2rem", letterSpacing: 0.4 }}>
             <Typography 
                 align="center"
                 component="h1"
@@ -38,6 +32,7 @@ function TermsOfUse() {
                             }}
                         >
                             <span style={{fontWeight: "900"}}>{item.name} </span>
+                            
                             {item.content}
                         </Typography>
                     );

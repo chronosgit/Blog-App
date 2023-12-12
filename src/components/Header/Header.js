@@ -1,8 +1,6 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
-import axios from "axios";
-
-import { Box, Typography, Link, Grid, Button } from '@mui/material';
+import { Box, Typography, Link, Grid } from '@mui/material';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -10,26 +8,18 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 
 import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';
+import ProfilePictureInteractive from '../ProfilePictureInteractive/ProfilePictureInteractive';
 
 function Header(props) {
     const {context} = props;
     const usedContext = useContext(context);
     const {user, setUser, profileImageLink, setProfileImageLink, profileImageSrc, setProfileImageSrc} = usedContext;
 
-    const profileImageStyle = {
-        width: 30,
-        height: 30,
-        borderRadius: "50%",
-    }
     const data = {
         navLinks: [
             {
                 name: "home",
                 link: "/",
-            },
-            {
-                name: "feed",
-                link: "/feed",
             },
             {
                 name: "about",
@@ -60,71 +50,6 @@ function Header(props) {
         ]
     }
 
-    async function handleLogout() {
-        await axios.get("http://localhost:3001/auth/logout/", {
-            withCredentials: true,
-            credentials: "include",
-        })
-        .then(response => {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("user");
-            document.cookie = "JWT=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-            setUser({});
-            setProfileImageLink("");
-            setProfileImageSrc("");
-
-            window.location.href = "/";
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    }
-
-    useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-
-        const getUser = async () => {
-            await axios.get("http://localhost:3001/refresh/", {
-                withCredentials: true,
-                credentials: "include",
-            })
-            .then(response => {
-                localStorage.removeItem("accessToken");
-                localStorage.setItem("accessToken", response.data.accessToken);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-            await axios.get("http://localhost:3001/user/", {
-                signal: controller.signal,
-                headers: {
-                    "Content-Type": "application/json; charset=UTF-8",
-                    "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
-                },
-            })
-            .then(response => {
-                setUser(response.data);
-                setProfileImageLink(`/profile/${response.data.id}`);
-                setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
-
-                isMounted && setUser(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        }
-
-        getUser();
-
-        return () => {
-            isMounted = false;
-            controller.abort();
-        }
-    }, []);
-
     return (
         <Grid
             container
@@ -138,11 +63,7 @@ function Header(props) {
                 borderColor: "gray",
             }}
         >
-            <Grid 
-                item 
-                component="nav"
-                xs={10} sm={8} md={6}
-            >
+            <Grid item component="nav" xs={10} sm={8} md={6}>
                 <Box 
                     component="nav" 
                     sx={{
@@ -150,38 +71,40 @@ function Header(props) {
                         alignItems: "center",
                         justifyContent: "flex-start",
                     }}
-                ><Link href="/feed" sx={{textDecoration:'none'}}>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            gap: "0.5rem",
-                        }}
-                    >
-                        <img 
-                            src="/images/logo-40x40.png" 
-                            alt="logo" 
-                            style={{
-                                width: "2rem",
-                                height: "2rem",
-                            }}  
-                        />
-
-                        <Typography
-                            paragraph
+                >
+                    <Link href="/feed" sx={{textDecoration:'none'}}>
+                        <Box
                             sx={{
-                                m: 0,
-                                fontSize: "1.2rem",
-                                fontWeight: "900",
-                                letterSpacing: 3,
-                                textTransform: "uppercase",
-                                color: 'black',
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: "0.5rem",
                             }}
                         >
-                            Engi<span className="yellow">World</span>
-                        </Typography>
-                    </Box></Link>
+                            <img 
+                                src="/images/logo-40x40.png" 
+                                alt="logo" 
+                                style={{
+                                    width: "2rem",
+                                    height: "2rem",
+                                }}  
+                            />
+
+                            <Typography
+                                paragraph
+                                sx={{
+                                    m: 0,
+                                    fontSize: "1.2rem",
+                                    fontWeight: "900",
+                                    letterSpacing: 3,
+                                    textTransform: "uppercase",
+                                    color: 'black',
+                                }}
+                            >
+                                Engi<span className="yellow">World</span>
+                            </Typography>
+                        </Box>
+                    </Link>
 
                     {
                         data.navLinks.map((item, index) => {
@@ -204,14 +127,7 @@ function Header(props) {
             </Grid>
 
             <Grid item xs={2} sm={4} md={6}>
-                <Box 
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-end",
-                        gap: "2rem",
-                    }}
-                >
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "2rem" }}>
                     <Box
                         sx={{
                             display: "flex",
@@ -231,17 +147,13 @@ function Header(props) {
 
                     {
                         Object.keys(user).length > 0 ?
-                            <>
-                            <a href={profileImageLink}>
-                                <img
-                                    src={profileImageSrc}
-                                    alt="profileImage"
-                                    style={profileImageStyle}
-                                />
-                            </a>
-
-                            <Button variant="text" color="error" onClick={handleLogout}>Logout</Button>
-                            </>
+                            <ProfilePictureInteractive
+                                profileImageLink={profileImageLink} 
+                                profileImageSrc={profileImageSrc}
+                                setUser={setUser}
+                                setProfileImageLink={setProfileImageLink}
+                                setProfileImageSrc={setProfileImageSrc}
+                            />
                         :
                             <Link 
                                 href="/signin"

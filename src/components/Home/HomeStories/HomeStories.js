@@ -76,17 +76,8 @@ function HomeStories() {
                 {
                     stories.map((item, index) => {
                         return (
-                            <Grid 
-                                key={index} 
-                                item 
-                                xs={12} sm={6} md={3}
-                            >
-                                <Box 
-                                    sx={{
-                                        p: "1rem",
-                                        width: "100%",
-                                    }}
-                                >
+                            <Grid key={index} item xs={12} sm={6} md={3}>
+                                <Box sx={{ p: "1rem", width: "100%", }}>
                                     <Link 
                                         href={item.link}
                                         underline="none"

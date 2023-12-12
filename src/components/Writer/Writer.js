@@ -33,13 +33,13 @@ function Writer() {
     ];
 
     const handleButtonClick = async () => {
-        if(title.length === 0 || title.length > 50) {
+        if(title.length === 0 || title.length > 55) {
             handleMessageUpdate("titleError");
             return;
         } else if(topic.length === 0) {
             handleMessageUpdate("topicError");
             return;
-        } else if(text.length === 0 || text.length > 500) {
+        } else if(text.length === 0 || text.length > 1500) {
             handleMessageUpdate("textError");
             return;
         }

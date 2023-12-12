@@ -11,31 +11,12 @@ function HomeHero(props) {
         compId=85131993&
         divisionName=Middle
         %20East%20%26%20Central%20Asia%C2%A0&type=C001&isCollectGender=N`;
+
     return (
-        <Box
-            sx={{
-                backgroundColor: "var(--secondaryColor)",
-            }}
-        >
-            <Container 
-                maxWidth="lg"
-                sx={{
-                    p: "2rem",
-                }}
-            >
-                <Box
-                    sx={{
-                        display: "flex",
-                        maxHeight: "50rem",
-                    }}
-                >
-                    <Box 
-                        sx={{
-                            p: "3rem 1rem",
-                            flex: "1",
-                            backgroundColor: "white"
-                        }}
-                    >
+        <Box sx={{ backgroundColor: "var(--secondaryColor)" }} >
+            <Container maxWidth="lg" sx={{ p: "2rem" }}>
+                <Box sx={{ display: "flex", maxHeight: "50rem" }}>
+                    <Box sx={{ p: "3rem 1rem", flex: "1", backgroundColor: "white" }}>
                         <Typography
                             sx={{
                                 mb: "1rem",
@@ -75,17 +56,13 @@ function HomeHero(props) {
                             underlineHeight={5}
                         />
 
-                        <Typography
-                            sx={{
-                                px: "3px",
-                                fontWeight: "300",
-                            }}
-                        >
+                        <Typography sx={{ px: "3px", fontWeight: "300" }}>
                             Real production cases, 
                             ton of feedback and lots of growth potential 
                             are on the agenda this October!
                         </Typography>
                     </Box>
+                    
                     <Box
                         sx={{
                             flex: "1.1",

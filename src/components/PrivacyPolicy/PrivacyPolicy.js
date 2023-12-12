@@ -4,13 +4,7 @@ import privacyPolicy, { intro } from "./data";
 
 function PrivacyPolicy() {
     return (
-        <Container 
-            maxWidth="md" 
-            sx={{
-                lineHeight: "2rem",
-                letterSpacing: 0.4,
-            }}
-        >
+        <Container maxWidth="md" sx={{ lineHeight: "2rem", letterSpacing: 0.4 }}>
             <Typography 
                 align="center"
                 component="h1"
@@ -25,43 +19,17 @@ function PrivacyPolicy() {
                 Privacy Policy
             </Typography>
 
-            <Typography
-                sx={{
-                    mb: "2rem",
-                    lineHeight: "inherit",
-                }}
-            >
-                {intro}
-            </Typography>
+            <Typography sx={{ mb: "2rem", lineHeight: "inherit" }}>{intro}</Typography>
 
             {
                 privacyPolicy.map((item, index) => {
                     return (
-                        <Box 
-                            key={index} 
-                            sx=
-                            {{
-                                letterSpacing: "inherit",
-                            }}
-                        >
-                            <Typography
-                                component="h2"
-                                sx={{
-                                    mb: "2rem",
-                                    fontWeight: "900"
-                                }}
-                            >
+                        <Box key={index} sx={{ letterSpacing: "inherit" }}>
+                            <Typography component="h2" sx={{ mb: "2rem", fontWeight: "900" }}>
                                 {index + 1}. {item.header}
                             </Typography>
 
-                            <Typography
-                                sx={{
-                                    mb: "3rem",
-                                    lineHeight: "inherit"
-                                }}
-                            >
-                                {item.descr}
-                            </Typography>
+                            <Typography sx={{ mb: "3rem", lineHeight: "inherit" }}>{item.descr}</Typography>
 
                             {
                                 item.paragraphs.map((item, index) => {
@@ -75,6 +43,7 @@ function PrivacyPolicy() {
                                             }}
                                         >
                                             <span style={{fontWeight: "900"}}>{item.name} </span>
+                                            
                                             {item.content}
                                         </Typography>
                                     );

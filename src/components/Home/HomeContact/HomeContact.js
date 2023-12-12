@@ -35,24 +35,14 @@ function HomeContact() {
 
     const action = (
         <>
-            <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={() => setOpen(false)}
-            >
+            <IconButton size="small" aria-label="close" color="inherit" onClick={() => setOpen(false)}>
                 <CloseIcon fontSize="small" />
             </IconButton>
         </>
     );
 
     return (
-        <Box
-            sx={{
-                mb: "2rem",
-                backgroundColor: "var(--secondaryColor)",
-            }}
-        >
+        <Box sx={{ mb: "2rem", backgroundColor: "var(--secondaryColor)" }}>
             <Container 
                 maxWidth="md"
                 sx={{
@@ -76,41 +66,16 @@ function HomeContact() {
                     }}
                 />
 
-                <Box
-                    sx={{
-                        flex: "1",
-                        textAlign: "center",
-                    }}
-                >
-                    <Typography
-                        component="h2"
-                        sx={{
-                            my: "1rem",
-                            fontSize: "2rem",
-                            fontWeight: "900",
-                        }}
-                    >
+                <Box sx={{ flex: "1", textAlign: "center" }}>
+                    <Typography component="h2" sx={{ my: "1rem", fontSize: "2rem", fontWeight: "900" }}>
                         GO BEHIND THE SCENES WITH ENGIWORLD
                     </Typography>
 
-                    <Typography
-                        sx={{
-                            mb: "2rem",
-                            fontSize: "1.1rem",
-                            fontWeight: "600",
-                        }}
-                    >
+                    <Typography sx={{ mb: "2rem", fontSize: "1.1rem", fontWeight: "600" }}>
                         Feel better, get smarter, and LOL a little… every week.
                     </Typography>
 
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "0.5rem",
-                        }}
-                    >
+                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem" }}>
                         <TextField
                             variant="standard"
                             error={isEmailAppropriate ? false : true}

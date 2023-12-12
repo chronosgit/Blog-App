@@ -24,12 +24,7 @@ function HomePromo() {
         },
     ];
     return (
-        <Container
-            maxWidth="lg"
-            sx={{
-                mb: "3rem",
-            }}
-        >
+        <Container maxWidth="lg" sx={{ mb: "3rem" }}>
             <Typography
                 component="h2"
                 sx={{
@@ -43,23 +38,11 @@ function HomePromo() {
                 Explore these useful resources
             </Typography>
 
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "stretch",
-                    gap: "1.5rem",
-                }}
-            >
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "stretch", gap: "1.5rem" }}>
                 {
                     resources.map((item, index) => {
                         return (
-                            <Box 
-                                key={index}
-                                sx={{
-                                    minWidth: "25%",
-                                }}
-                            >
+                            <Box key={index} sx={{ minWidth: "25%" }}>
                                 <Link
                                     href={item.link} 
                                     underline="none"
@@ -80,12 +63,7 @@ function HomePromo() {
                                             backgroundSize: "contain",
                                         }} 
                                     />
-                                    <Typography
-                                        sx={{
-                                            color: "var(--mainColor)",
-                                            letterSpacing: 1,
-                                        }}
-                                    >
+                                    <Typography sx={{ color: "var(--mainColor)", letterSpacing: 1 }}>
                                         {item.title}
                                     </Typography>
                                 </Link>

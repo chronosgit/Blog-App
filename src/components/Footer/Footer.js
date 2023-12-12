@@ -39,12 +39,7 @@ function Footer() {
                     color: "var(--mainColor)"
                 }}
             >
-                <Box
-                    sx={{
-                        display: "block",
-                        py: "5rem",
-                    }}
-                >
+                <Box sx={{ display: "block", py: "5rem" }}>
                     <Typography
                         sx={{
                             mb: "1rem",
@@ -79,11 +74,7 @@ function Footer() {
                     </Box>
                 </Box>
 
-                <Box
-                    sx={{
-                        p: "1.5rem 2rem",
-                    }}
-                >
+                <Box sx={{ p: "1.5rem 2rem" }}>
                     <Typography
                         sx={{
                             fontSize: "1.2rem",
@@ -103,31 +94,13 @@ function Footer() {
                             fontSize: "0.9rem",
                         }}
                     >
-                        <Typography
-                            sx={{
-                                fontSize: "inherit",
-                            }}
-                        >
+                        <Typography sx={{ fontSize: "inherit" }}>
                             © {currentYear} EngiWorld. All rights reserved.
                         </Typography>
 
-                        <Link
-                            href="/terms-of-use"
-                            sx={{
-                                color: "var(--mainColor)",
-                            }}
-                        >
-                            Terms of Use
-                        </Link>
+                        <Link href="/terms-of-use" sx={{ color: "var(--mainColor)" }}>Terms of Use</Link>
                         
-                        <Link
-                            href="/privacy"
-                            sx={{
-                                color: "var(--mainColor)",
-                            }}
-                        >
-                            Privacy Policy
-                        </Link>
+                        <Link href="/privacy" sx={{ color: "var(--mainColor)" }}>Privacy Policy</Link>
                     </Box>
                 </Box>
             </Box>

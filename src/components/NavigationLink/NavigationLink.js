@@ -16,7 +16,7 @@ function NavigationLink(props) {
     } = props;
     return (
         <>
-            <Box 
+            <Box
                 sx={{
                     m: margin,
                     p: padding,

@@ -1,5 +1,8 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+import axios from 'axios';
+
 import { ThemeProvider, createTheme } from '@mui/material';
 
 import Header from "./components/Header/Header";
@@ -80,6 +83,50 @@ function App() {
 	const [user, setUser] = useState({});
 	const [profileImageLink, setProfileImageLink] = useState("");
     const [profileImageSrc, setProfileImageSrc] = useState("");
+
+	useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+
+        const getUser = async () => {
+            await axios.get("http://localhost:3001/refresh/", {
+                withCredentials: true,
+                credentials: "include",
+            })
+            .then(response => {
+                localStorage.removeItem("accessToken");
+                localStorage.setItem("accessToken", response.data.accessToken);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+            await axios.get("http://localhost:3001/user/", {
+                signal: controller.signal,
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+                },
+            })
+            .then(response => {
+                setUser(response.data);
+                setProfileImageLink(`/profile/${response.data.id}`);
+                setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
+
+                isMounted && setUser(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+
+        getUser();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
+    }, []);
 
 	const THEME = createTheme({
 		typography: {

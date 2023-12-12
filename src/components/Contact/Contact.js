@@ -24,13 +24,7 @@ function Contact() {
         },
     ]
     return (
-        <Container 
-            maxWidth="md" 
-            sx={{
-                my: "6rem",
-                textAlign: "center"
-            }}
-        >
+        <Container maxWidth="md" sx={{ my: "6rem", textAlign: "center" }}>
             <Typography 
                 align="center"
                 component="h1"
@@ -44,23 +38,11 @@ function Contact() {
                 Contact
             </Typography>
 
-            <Typography
-                component="h2"
-                sx={{
-                    fontSize: "1.3rem",
-                    fontWeight: "600",
-                }}
-            >
+            <Typography component="h2" sx={{ fontSize: "1.3rem", fontWeight: "600" }}>
                 We'd love to hear from you!
             </Typography>
 
-            <Typography
-                paragraph
-                sx={{
-                    mb: "5rem",
-                    letterSpacing: 1,
-                }}
-            >
+            <Typography paragraph sx={{ mb: "5rem", letterSpacing: 1 }}>
                 Have ideas, looking to partner, or need support?
             </Typography>
 
@@ -73,13 +55,7 @@ function Contact() {
                             color="var(--mainColor)"
                             key={index}
                         >
-                            <Typography
-                                paragraph
-                                sx={{
-                                    mb: "1rem",
-                                    letterSpacing: 1,
-                                }}
-                            >
+                            <Typography paragraph sx={{ mb: "1rem", letterSpacing: 1 }}>
                                {item.prompt}
                             </Typography>
 
@@ -111,21 +87,9 @@ function Contact() {
                 Send postcards to...
             </Typography>
 
-            <Typography
-                sx={{
-                    fontSize: "1.1rem",
-                    fontWeight: "600",
-                }}
-            >
-                EngiWorld HQ
-            </Typography>
-            <Typography
-                sx={{
-                    mb: "1rem",
-                    fontSize: "1.1rem",
-                    textTransform: "uppercase"
-                }}
-            >
+            <Typography sx={{ fontSize: "1.1rem", fontWeight: "600" }}>EngiWorld HQ</Typography>
+            
+            <Typography sx={{ mb: "1rem", fontSize: "1.1rem", textTransform: "uppercase" }}>
                 129 Nomad avenue<br />
                 Almaty city, kazakstan
             </Typography>

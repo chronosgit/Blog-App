@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import axios from "axios";
 
-import { Box, Container, Link, Typography, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { Box, Link, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ReplyIcon from '@mui/icons-material/Reply';
@@ -28,19 +28,9 @@ function Feed() {
     }
 
     return (
-        <Box sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-        }}>
+        <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <Box sx={createPostBoxStyles}>
-                <Link
-                    href="/writer"
-                    underline="none"
-                    color="var(--mainColor)"
-                >
-                    Make a post
-                </Link>
+                <Link href="/writer" underline="none" color="var(--mainColor)">Make a post</Link>
             </Box>
 
             <BottomNavigation
