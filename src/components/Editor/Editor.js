@@ -32,7 +32,7 @@ function Editor(props) {
         "Sustainable Energy And Machinery",
     ];
 
-    const postId = window.location.pathname.slice(8);
+    const postId = window.location.pathname.slice(13);
 
     useEffect(() => {
         const getPost = async () => {
@@ -48,9 +48,9 @@ function Editor(props) {
         }
 
         getPost();
-    }, [])
+    }, []);
 
-    const handleButtonClick = async () => {
+    const updatePost = async () => {
         if(title.length === 0 || title.length > 55) {
             handleMessageUpdate("titleError");
             return;
@@ -83,7 +83,7 @@ function Editor(props) {
                 }
             )
             .then(response => {
-                handleMessageUpdate("creationSuccess");
+                handleMessageUpdate("updateSuccess");
             })
             .catch(error => {
                 console.log(error);
@@ -110,7 +110,7 @@ function Editor(props) {
         let messageText = "";
         let isMessageError = true;
 
-        if(status === "creationSuccess") {
+        if(status === "updateSuccess") {
             messageText = "Your post is successfuly updated! You can update it again right way!";
             isMessageError = false;
         } else if(status === "titleError") {
@@ -130,10 +130,7 @@ function Editor(props) {
     };
 
     const clearMessage = () => {
-        setMessage(message => ({
-            text: "",
-            isError: false,
-        }));
+        setMessage({text: "", isError: false});
     }
 
     const clearInputs = () => {
@@ -187,7 +184,7 @@ function Editor(props) {
             }
 
             <Box sx={{ display: "flex", gap: "1rem" }}>
-                <Button variant="contained" onClick={handleButtonClick}>Update</Button>
+                <Button variant="contained" onClick={updatePost}>Update</Button>
 
                 <Button variant="outlined" onClick={clearInputs}>Clear inputs</Button>
             </Box>

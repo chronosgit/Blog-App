@@ -11,9 +11,10 @@ import NearMeIcon from '@mui/icons-material/NearMe';
 import CommentIcon from '@mui/icons-material/Comment';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 function Post(props) {
-    const {post, hideComment, context} = props;
+    const {post, hideComment, context, postView} = props;
     const usedContext = useContext(context);
     const {user} = usedContext;
 
@@ -40,7 +41,7 @@ function Post(props) {
         .then(async (response) => {
             localStorage.removeItem("accessToken");
             localStorage.setItem("accessToken", response.data.accessToken);
-            console.log(post)
+            
             await axios.post(
                 "http://localhost:3001/like/",
                 {postId: post.id},
@@ -131,110 +132,118 @@ function Post(props) {
     };
 
     return (
-        <>
-        <Box
-            sx={{
-                width: "100%",
-                mb: "1rem",
-                p: "1rem", 
-                position: "relative",
-                border: "1px solid rgba(0, 0, 0, 0.1)",
-                borderRadius: 1, 
-            }}
-        >
-            <Box 
-                sx={{ 
-                    display: "flex", 
-                    justifyContent: "space-between", 
-                    fontSize: "0.9rem", 
-                    textTransform: "uppercase" 
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <Box
+                sx={{
+                    width: "100%",
+                    p: "1rem", 
+                    position: "relative",
+                    border: "1px solid rgba(0, 0, 0, 0.1)",
+                    borderRadius: 1, 
                 }}
             >
-                <Typography>
-                    By {post?.authorUsername}
+                <Box 
+                    sx={{ 
+                        display: "flex", 
+                        justifyContent: "space-between", 
+                        fontSize: "0.9rem", 
+                        textTransform: "uppercase" 
+                    }}
+                >
+                    <Typography>
+                        By {post?.authorUsername}
+                    </Typography>
+
+                    <Typography>
+                        {postCreationDateFormatted}
+                    </Typography>
+                </Box>
+
+                <Typography 
+                    sx={{
+                        my: "1rem",
+                        p: 0.5,
+                        width: "fit-content",
+                        fontSize: "0.7rem",
+                        backgroundColor: "var(--mainColor)",
+                        color: "var(--backgroundColor)",
+                        border: "1px solid rgba(0, 0, 0, 0.1)",
+                        borderRadius: 1,
+                        textTransform: "uppercase", 
+                    }}
+                >
+                    {post?.topic}
                 </Typography>
 
-                <Typography>
-                    {postCreationDateFormatted}
+                <Typography 
+                    sx={{ 
+                        my: "1rem",
+                        fontSize: "1.5rem", 
+                        fontWeight: 600, 
+                        textOverflow: "ellipsis",
+                        wordBreak: "break-word",
+                    }}
+                >
+                    {post?.title}
+                </Typography>
+
+                <Typography sx={{ textAlign: "justify" }}>
+                    {post?.text}
                 </Typography>
             </Box>
 
-            <Typography 
-                sx={{
-                    my: "1rem",
-                    p: 0.5,
-                    width: "fit-content",
-                    fontSize: "0.7rem",
-                    backgroundColor: "var(--mainColor)",
-                    color: "var(--backgroundColor)",
-                    border: "1px solid rgba(0, 0, 0, 0.1)",
-                    borderRadius: 1,
-                    textTransform: "uppercase", 
-                }}
-            >
-                {post?.topic}
-            </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <ButtonGroup variant="text" aria-label="text button group">
+                    <Button onClick={handleLike}>
+                        {
+                            isPostLiked ?
+                                <FavoriteOutlinedIcon /> // filled
+                            :
+                                <FavoriteBorderOutlinedIcon /> // otlined
+                        }
+                    </Button>
 
-            <Typography 
-                sx={{ 
-                    my: "1rem",
-                    fontSize: "1.5rem", 
-                    fontWeight: 600, 
-                    textOverflow: "ellipsis",
-                    wordBreak: "break-word",
-                }}
-            >
-                {post?.title}
-            </Typography>
+                    <Button onClick={handleRepost}>
+                        {
+                            isPostReposted ?
+                                <NearMeIcon /> // filled
+                            :
+                                <NearMeOutlinedIcon /> // otlined
+                        }
+                    </Button>
 
-            <Typography sx={{ textAlign: "justify" }}>
-                {post?.text}
-            </Typography>
-        </Box>
-
-        <Box>
-            <ButtonGroup variant="text" aria-label="text button group">
-                <Button onClick={handleLike}>
                     {
-                        isPostLiked ?
-                            <FavoriteOutlinedIcon /> // filled
-                        :
-                            <FavoriteBorderOutlinedIcon /> // otlined
+                        !hideComment &&
+                            <Button href={`/comment/${post.id}`}>
+                                <CommentIcon />
+                            </Button>
                     }
-                </Button>
 
-                <Button onClick={handleRepost}>
                     {
-                        isPostReposted ?
-                            <NearMeIcon /> // filled
-                        :
-                            <NearMeOutlinedIcon /> // otlined
+                        !postView &&
+                            <Button href={`/post/${post.id}`} color="info">
+                                <VisibilityIcon />
+                            </Button>
                     }
-                </Button>
+                </ButtonGroup>
 
-                {
-                    !hideComment &&
-                        <Button onClick={() => navigate(`/comment/${post.id}`)}>
-                            <CommentIcon />
-                        </Button>
-                }
+                <ButtonGroup variant="text" aria-label="text button group">
+                    {
+                        (Object.keys(user).length > 0 && user?.id === post.author) &&
+                            <Button href={`/post/editor/${post.id}`} color="success">
+                                <EditIcon />
+                            </Button>
+                    }
 
-                {
-                    (Object.keys(user).length > 0 && user?.id === post.author) &&
-                        <Button onClick={() => navigate(`/editor/${post.id}`)}>
-                            <EditIcon />
-                        </Button>
-                }
-
-                {
-                    (Object.keys(user).length > 0 && user?.id === post.author) &&
-                        <Button onClick={handleDelete}>
-                            <DeleteIcon />
-                        </Button>
-                }
-            </ButtonGroup>
+                    {
+                        (Object.keys(user).length > 0 && user?.id === post.author) &&
+                            <Button onClick={handleDelete} color="error">
+                                <DeleteIcon />
+                            </Button>
+                    }
+                </ButtonGroup>
+            </Box>
         </Box>
-        </>
     )
 }
 

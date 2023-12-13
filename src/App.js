@@ -20,6 +20,8 @@ import Feed from './components/Feed/Feed';
 import Writer from "./components/Writer/Writer";
 import CommentWriter from "./components/CommentWriter/CommentWriter";
 import Editor from "./components/Editor/Editor";
+import PostView from "./components/PostView/PostView";
+import CommentEditor from './components/CommentEditor/CommentEditor';
 
 const UserContext = createContext({});
 
@@ -80,8 +82,18 @@ const router = createBrowserRouter([
 		errorElement: <NotFound />,
 	},
 	{
-		path: "/editor/:postId",
+		path: "/post/editor/:postId",
 	  	element: <Editor context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/post/:postId",
+	  	element: <PostView context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/comment/editor/:postId",
+	  	element: <CommentEditor context={UserContext} />,
 		errorElement: <NotFound />,
 	},
 	{
@@ -105,27 +117,27 @@ function App() {
                 withCredentials: true,
                 credentials: "include",
             })
-            .then(response => {
+            .then(async (response) => {
                 localStorage.removeItem("accessToken");
                 localStorage.setItem("accessToken", response.data.accessToken);
-            })
-            .catch(error => {
-                console.log(error);
-            });
 
-            await axios.get("http://localhost:3001/user/", {
-                signal: controller.signal,
-                headers: {
-                    "Content-Type": "application/json; charset=UTF-8",
-                    "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
-                },
-            })
-            .then(response => {
-                setUser(response.data);
-                setProfileImageLink(`/profile/${response.data.id}`);
-                setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
+				await axios.get("http://localhost:3001/user/", {
+					signal: controller.signal,
+					headers: {
+						"Content-Type": "application/json; charset=UTF-8",
+						"Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+					},
+				})
+				.then(response => {
+					setUser(response.data);
+					setProfileImageLink(`/profile/${response.data.id}`);
+					setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
 
-                isMounted && setUser(response.data);
+					isMounted && setUser(response.data);
+				})
+				.catch(error => {
+					console.log(error);
+				});
             })
             .catch(error => {
                 console.log(error);
