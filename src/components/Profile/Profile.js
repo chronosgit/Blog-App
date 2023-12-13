@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 
 import { Box, Button, Container, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import Posts from '../Posts/Posts';
 
-function Profile() {
-    const navigate = useNavigate();
+function Profile(props) {
+    const {context} = props;
 
     const [user, setUser] = useState({});
     const [posts, setPosts] = useState([]);
+    const [postsType, setPostsType] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const userId = window.location.pathname.slice(9);
 
@@ -35,24 +37,68 @@ function Profile() {
         getUserProfile();
     }, [])
 
-    const getPosts = async (subject) => {
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [isLoading]);
+
+    const handleScroll = () => {
+        if(isLoading) {
+            return;
+        }
+
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            getPosts(postsType, document.documentElement.offsetHeight);
+        }
+    }
+
+    const getPosts = async (subject, scrollHeight) => {
         let requestUrl = "http://localhost:3001";
         if(subject === "yourPosts") {
             requestUrl += `/user/${userId}/posts/`;
+            setPostsType("yourPosts");
         } else if(subject === "reposts") {
             requestUrl += "";
+            setPostsType("reposts");
         } else if(subject === "likedPosts") {
             requestUrl += "";
+            setPostsType("likedPosts");
         } else {
             return;
         }
 
-        await axios.get(requestUrl)
+        const oldPostsLength = posts.length;
+        const end = posts.length + 3;
+        const start = posts.length + 1;
+        const authedUserId = user.id;
+        setIsLoading(true);
+
+        await axios.get(
+            requestUrl, 
+            {
+                params: {
+                    start,
+                    end,
+                    authedUserId,
+                }
+            }
+        )
         .then(response => {
-            setPosts(response.data.posts);
+            setIsLoading(false);
+
+            if(posts.length + response.data.length !== oldPostsLength) {
+                window.scrollTo(0, 0); // values are x,y-offset
+
+                setPosts(previous => {
+                    return previous.concat(response.data)
+                });
+            }
         })
         .catch(error => {
             console.log(error);
+
+            setIsLoading(false);
         });
     };
 
@@ -147,10 +193,12 @@ function Profile() {
             </Box>
 
             {
-                posts.length > 0 && 
-                    <Box sx={{ width: "100%" }}>
-                        <Posts posts={posts} />
-                    </Box>
+                posts.length > 0 &&
+                    <Posts posts={posts} context={context} />
+            }
+
+            {
+                isLoading && <CircularProgress />
             }
         </Container>
     )

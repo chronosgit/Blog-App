@@ -18,6 +18,8 @@ import SignUp from "./components/Auth/SignUp";
 import Profile from './components/Profile/Profile';
 import Feed from './components/Feed/Feed';
 import Writer from "./components/Writer/Writer";
+import CommentWriter from "./components/CommentWriter/CommentWriter";
+import Editor from "./components/Editor/Editor";
 
 const UserContext = createContext({});
 
@@ -70,6 +72,16 @@ const router = createBrowserRouter([
 	{
 		path: "/writer",
 	  	element: <Writer context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/comment/:postId",
+	  	element: <CommentWriter context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/editor/:postId",
+	  	element: <Editor context={UserContext} />,
 		errorElement: <NotFound />,
 	},
 	{
