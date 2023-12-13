@@ -22,18 +22,18 @@ function Profile(props) {
         height: 150,
         borderRadius: "50%",
     }
-
-    const getUserProfile = async () => {
-        await axios.get(`http://localhost:3001/user/${userId}`)
-        .then(response => {
-            setUser(response.data);
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    };
     
     useEffect(() => {
+        const getUserProfile = async () => {
+            await axios.get(`http://localhost:3001/user/${userId}`)
+            .then(response => {
+                setUser(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        };
+
         getUserProfile();
     }, [])
 
@@ -54,25 +54,40 @@ function Profile(props) {
     }
 
     const getPosts = async (subject, scrollHeight) => {
+        setIsLoading(true);
+
         let requestUrl = "http://localhost:3001";
-        if(subject === "yourPosts") {
+        let isNewPostType = false;
+        if(postsType !== "" && subject !== postsType) {
+            setPosts([]);
+            isNewPostType = true;
+        }
+
+        if(subject === "ownPosts") {
             requestUrl += `/user/${userId}/posts/`;
-            setPostsType("yourPosts");
+            setPostsType("ownPosts");
         } else if(subject === "reposts") {
-            requestUrl += "";
+            requestUrl += `/user/${userId}/reposts/`;
             setPostsType("reposts");
         } else if(subject === "likedPosts") {
             requestUrl += "";
             setPostsType("likedPosts");
+            setIsLoading(false);
+            return;
         } else {
             return;
         }
 
-        const oldPostsLength = posts.length;
-        const end = posts.length + 3;
-        const start = posts.length + 1;
-        const authedUserId = user.id;
-        setIsLoading(true);
+        let oldPostsLength = posts.length;
+        let end = posts.length + 5;
+        let start = posts.length + 1;
+        const authedUserId = Object.keys(user).length > 0 ? user.id : -1;
+
+        if(isNewPostType) { // countermeasure again react async state changes
+            oldPostsLength = 0;
+            end = 5;
+            start = 1;
+        }
 
         await axios.get(
             requestUrl, 
@@ -86,6 +101,10 @@ function Profile(props) {
         )
         .then(response => {
             setIsLoading(false);
+
+            if(response.data === "OK") {
+                return;
+            }
 
             if(posts.length + response.data.length !== oldPostsLength) {
                 window.scrollTo(0, 0); // values are x,y-offset
@@ -182,12 +201,15 @@ function Profile(props) {
 
                     <Typography paragraph>{user.bio}</Typography>
 
-                    <input id="pfpInput" type="file" accept="image/jpeg, image/png, image/jpg" onChange={uploadProfilePicture} />
+                    {
+                        Object.keys(user).length > 0 && user.id === userId &&
+                            <input id="pfpInput" type="file" accept="image/jpeg, image/png, image/jpg" onChange={uploadProfilePicture} />
+                    }
                 </Box>
             </Box>
 
             <Box sx={{ display: "flex", justifyContent: "space-between", columnGap: 2, my: "1rem" }}>
-                <Button variant="text" color="secondary" onClick={() => getPosts("yourPosts")}>Your posts</Button>
+                <Button variant="text" color="secondary" onClick={() => getPosts("ownPosts")}>Own posts</Button>
                 <Button variant="text" color="secondary" onClick={() => getPosts("reposts")}>Reposts</Button>
                 <Button variant="text" color="secondary" onClick={() => getPosts("likedPosts")}>Liked posts</Button>
             </Box>
