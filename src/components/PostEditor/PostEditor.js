@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import axios from "axios";
 
 import Editor from "../Editor/Editor";
 
-function PostEditor() {
+function PostEditor(props) {
+    const {context} = props;
+    const usedContext = useContext(context);
+    const {user} = usedContext;
+
     const [title, setTitle] = useState("");
     const [topic, setTopic] = useState("");
     const [text, setText] = useState("");

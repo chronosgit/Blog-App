@@ -22,6 +22,7 @@ import CommentWriter from "./components/CommentWriter/CommentWriter";
 import PostView from "./components/PostView/PostView";
 import CommentEditor from './components/CommentEditor/CommentEditor';
 import ProfileEditor from "./components/ProfileEditor/ProfileEditor";
+import ProfilePrivate from "./components/ProfilePrivate/ProfilePrivate";
 import PostEditor from './components/PostEditor/PostEditor';
 
 const UserContext = createContext({});
@@ -65,6 +66,11 @@ const router = createBrowserRouter([
 	{
 		path: "/profile/:id",
 	  	element: <Profile context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/profile/your/:id",
+	  	element: <ProfilePrivate context={UserContext} />,
 		errorElement: <NotFound />,
 	},
 	{
@@ -136,7 +142,7 @@ function App() {
 				})
 				.then(response => {
 					setUser(response.data);
-					setProfileImageLink(`/profile/${response.data.id}`);
+					setProfileImageLink(`/profile/your/${response.data.id}`);
 					setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
 
 					isMounted && setUser(response.data);

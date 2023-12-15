@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Link, Typography } from "@mui/material";
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,12 +16,19 @@ function Comment(props) {
 
     const navigate = useNavigate();
 
-    const [isCommentLiked, setIsCommentLiked] = useState(comment.isLiked);
+    const [isCommentLiked, setIsCommentLiked] = useState(comment.likes?.includes(user?.id));
+    const [likesNumber, setLikesNumber] = useState(comment.likes?.length);
 
     const postId = window.location.pathname.slice(6);
 
     const commentDateObject = new Date(Date.parse(comment.date));
-    const commentDate = `${commentDateObject.getDate()}-${commentDateObject.getMonth()}-${commentDateObject.getFullYear()}`;
+    const isEditedLabel = comment.isEdited ? "edited at" : "";
+    const commentDate = `${isEditedLabel} ${commentDateObject.getDate()}-${commentDateObject.getMonth() + 1}-${commentDateObject.getFullYear()} ${commentDateObject.getHours()}:${commentDateObject.getMinutes()}`;
+
+    useEffect(() => {
+        setIsCommentLiked(comment.likes?.includes(user?.id));
+        setLikesNumber(comment.likes?.length);
+    }, [comment]);
 
     const handleLike = async () => {
         if(Object.keys(user).length === 0) {
@@ -50,7 +57,12 @@ function Comment(props) {
                 }
             )
             .then(response => {
-                console.log(response);
+                const status = response.data.status;
+                if(status === "liked") {
+                    setLikesNumber(prev => prev + 1);
+                } else if(status === "unliked") {
+                    setLikesNumber(prev => prev - 1);
+                }
 
                 setIsCommentLiked(previous => !previous);
             })
@@ -94,20 +106,22 @@ function Comment(props) {
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem", mb: "3rem" }}>
             <Box sx={{ p: "1rem", border: "1px solid rgba(0, 0, 0, 0.1)", borderRadius: 1 }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: "1rem", mb: "1rem" }}>
-                    <img
-                        src={`data:image/jpeg;base64,${comment.authorProfilePic}`}
-                        alt="profileImage"
-                        style={{
-                            width: "2.5rem",
-                            height: "2.5rem",
-                            borderRadius: "50%",
-                        }}
-                    />
+                <Box>
+                    <Link href={`/profile/${comment.authorId}`} underline="none" sx={{ display: "flex", alignItems: "center", gap: "1rem", mb: "1rem", color: "var(--mainColor)" }}>
+                        <img
+                            src={`data:image/jpeg;base64,${comment.authorProfilePic}`}
+                            alt="profileImage"
+                            style={{
+                                width: "2.5rem",
+                                height: "2.5rem",
+                                borderRadius: "50%",
+                            }}
+                        />
 
-                    <Typography sx={{ fontWeight: 600 }}>
-                        {comment.authorUsername}
-                    </Typography>
+                        <Typography sx={{ fontWeight: 600 }}>
+                            {comment.authorUsername}
+                        </Typography>
+                    </Link>
                 </Box>
 
                 <Typography paragraph sx={{ mb: "3rem" }}>
@@ -121,6 +135,8 @@ function Comment(props) {
 
             <Box>
                 <Button onClick={handleLike}>
+                    <Typography sx={{ mr: 1 }}>{likesNumber}</Typography>
+
                     {
                         isCommentLiked ?
                             <FavoriteOutlinedIcon /> // filled

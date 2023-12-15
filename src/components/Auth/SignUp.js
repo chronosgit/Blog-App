@@ -99,7 +99,7 @@ function SignUp(props) {
             resetAllStates();
 
             setUser(response.data);
-            setProfileImageLink(`/profile/${response.data.id}`);
+            setProfileImageLink(`/profile/your/${response.data.id}`);
             setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
 
             navigate("/");

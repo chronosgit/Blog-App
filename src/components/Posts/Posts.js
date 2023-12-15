@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import { Box } from "@mui/material";
 
 import Post from "../Post/Post";

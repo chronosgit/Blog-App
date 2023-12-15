@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import axios from "axios";
 
@@ -8,15 +8,16 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import Posts from '../Posts/Posts';
 
-function Profile(props) {
+function ProfilePrivate(props) {
     const {context} = props;
+    const usedContext = useContext(context);
+    const {user, setUser, setProfileImageLink, setProfileImageSrc} = usedContext;
 
-    const [user, setUser] = useState({});
     const [posts, setPosts] = useState([]);
     const [postsType, setPostsType] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const userId = window.location.pathname.slice(9);
+    const userId = window.location.pathname.slice(14);
 
     const profileImageStyle = {
         width: 150,
@@ -25,21 +26,38 @@ function Profile(props) {
     }
     
     useEffect(() => {
-        const getUserProfile = async () => {
-            await axios.get(`http://localhost:3001/user/${userId}`)
-            .then(response => {
-                setUser(response.data);
+        const getUser = async () => {
+            await axios.get("http://localhost:3001/refresh/", {
+                withCredentials: true,
+                credentials: "include",
+            })
+            .then(async (response) => {
+                localStorage.removeItem("accessToken");
+                localStorage.setItem("accessToken", response.data.accessToken);
 
-                // Object.keys(user).length > 0 && user.id === userId
+				await axios.get("http://localhost:3001/user/", {
+					headers: {
+						"Content-Type": "application/json; charset=UTF-8",
+						"Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+					},
+				})
+				.then(response => {
+					setUser(response.data);
+					setProfileImageLink(`/profile/your/${response.data.id}`);
+					setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
 
-                console.log(Object.keys(user), user.id, userId);
+					setUser(response.data);
+				})
+				.catch(error => {
+					console.log(error);
+				});
             })
             .catch(error => {
                 console.log(error);
-            })
-        };
+            });
+        }
 
-        getUserProfile();
+        getUser();
     }, [])
 
     useEffect(() => {
@@ -122,6 +140,42 @@ function Profile(props) {
         });
     };
 
+    const uploadProfilePicture = async () => {
+        await axios.get("http://localhost:3001/refresh/", 
+            {
+                withCredentials: true,
+                credentials: "include",
+            }
+        )
+        .then(async (response) => {
+            localStorage.removeItem("accessToken");
+            localStorage.setItem("accessToken", response.data.accessToken);
+
+            const pfpInput = document.getElementById("pfpInput");
+            const imageFile = pfpInput.files[0];
+
+            await axios.put(
+                "http://localhost:3001/upload/profilePicture/", 
+                {imageFile},
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+                    },
+                }
+            )
+            .then(response => {
+                window.location.href = "/";
+            })
+            .catch(error => {
+                console.log(error);
+            })  
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
     return (
         <Container
             maxWidth="sm" 
@@ -166,7 +220,19 @@ function Profile(props) {
 
                     <Typography paragraph sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                         {user.bio}
+
+                        {
+                            Object.keys(user).length > 0 && user.id === userId &&
+                            <Button href={`/profile/editor/${userId}`} color="primary">
+                                <EditIcon />
+                            </Button>
+                        }
                     </Typography>
+
+                    {
+                        Object.keys(user).length > 0 && user.id === userId &&
+                            <input id="pfpInput" type="file" accept="image/jpeg, image/png, image/jpg" onChange={uploadProfilePicture} />
+                    }
                 </Box>
             </Box>
 
@@ -188,4 +254,4 @@ function Profile(props) {
     )
 }
 
-export default Profile;
+export default ProfilePrivate;

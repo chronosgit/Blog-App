@@ -23,33 +23,15 @@ function PostView(props) {
             .then(async (response) => {
                 setPost(response.data);
 
-                if(localStorage.getItem("accessToken") === null) { // unathorized
-                    await axios.get(
-                        `http://localhost:3001/comments/${postId}/`,
-                    )
-                    .then(response => {
-                        setComments(response.data);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-                } else { // authorized
-                    await axios.get(
-                        `http://localhost:3001/auth/comments/${postId}/`,
-                        {
-                            headers: {
-                                "Content-Type": "application/json; charset=UTF-8",
-                                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
-                            }
-                        }
-                    )
-                    .then(response => {
-                        setComments(response.data);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-                }
+                await axios.get(
+                    `http://localhost:3001/comments/${postId}/`,
+                )
+                .then(response => {
+                    setComments(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
             })
             .catch(error => {
                 console.log(error);
