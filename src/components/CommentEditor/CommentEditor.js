@@ -2,13 +2,9 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import Editor from "../Editor/Editor";
 
-function CommentEditor(props) {
-    const [message, setMessage] = useState({
-        text: "",
-        isError: false,
-    });
+function CommentEditor() {
     const [comment, setComment] = useState("");
 
     const commentId = window.location.pathname.slice(16);
@@ -27,29 +23,9 @@ function CommentEditor(props) {
         getComment();
     }, []);
 
-    const handleMessageUpdate = (status, errorMessage) => {
-        let messageText = "";
-        let isMessageError = true;
-
-        if(status === "updateSuccess") {
-            messageText = "Your comment is successfuly updated! You can update it again right way!";
-            isMessageError = false;
-        } else if(status === "commentError") {
-            messageText = "Your comment should be from 1 to 1000 characters";
-        } else if(status === "axiosError") {
-            messageText = errorMessage;
-        }
-
-        setMessage({text: messageText, isError: isMessageError});
-    };
-
-    const clearMessage = () => {
-        setMessage({text: "", isError: false});
-    }
-
-    const updateComment = async () => {
+    const updateComment = async (handleFeedbackMessageUpdate) => {
         if(comment.length <= 0 || comment.length > 1000) {
-            handleMessageUpdate("commentError");
+            handleFeedbackMessageUpdate("commentError");
             return;
         }
 
@@ -74,54 +50,31 @@ function CommentEditor(props) {
                 }
             )
             .then(response => {
-                handleMessageUpdate("updateSuccess");
+                console.log(response);
+
+                handleFeedbackMessageUpdate("updateSuccess");
             })
             .catch(error => {
                 console.log(error);
 
-                if(error.code === 'ERR_BAD_REQUEST') {
-                    handleMessageUpdate("axiosError", error.message);
-                } else {
-                    handleMessageUpdate("axiosError", error.response?.data?.error);
-                }
+                handleFeedbackMessageUpdate("axiosError", error.response?.data?.error || error.message);
             });
         })
         .catch(error => {
             console.log(error);
             
-            if(error.code === 'ERR_BAD_REQUEST') {
-                handleMessageUpdate("axiosError", error.message);
-            } else {
-                handleMessageUpdate("axiosError", error.response?.data?.error);
-            }
+            handleFeedbackMessageUpdate("axiosError", error.response?.data?.error || error.message);
         });
     }
 
     return (
-        <Container maxWidth="md">
-            <Typography gutterBottom sx={{ fontSize: "1.2rem", fontWeight: "600" }}>Update your comment:</Typography>
-
-            <TextField
-                value={comment}
-                label="Text" 
-                variant="outlined" 
-                multiline 
-                fullWidth 
-                margin="normal"
-                onChange={e => setComment(e.target.value)}
-            />
-
-            {
-                message.text.length > 0 &&
-                    <Typography sx={{ my: 1, color: message.isError ? "red" : "green" }}>{message.text}</Typography>
-            }
-
-            <Box sx={{ display: "flex", gap: "1rem" }}>
-                <Button variant="contained" onClick={updateComment}>Update</Button>
-
-                <Button variant="outlined" onClick={() => {setComment(""); clearMessage()}}>Clear inputs</Button>
-            </Box>
-        </Container>
+        <Editor 
+            type="comment"
+            multilineValue={comment}
+            setMultilineValue={setComment}
+            editFunction={updateComment}
+            clearInputs={() => setComment("")}
+        />
     )
 }
 

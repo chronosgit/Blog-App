@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { Button, Container, MenuItem, Select, TextField, Typography } from "@mui/material";
 
-function Writer() {
+function PostWriter() {
     const [title, setTitle] = useState("");
     const [topic, setTopic] = useState("");
     const [text, setText] = useState("");
@@ -169,4 +169,4 @@ function Writer() {
     )
 }
 
-export default Writer;
+export default PostWriter;

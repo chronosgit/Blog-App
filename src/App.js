@@ -17,11 +17,12 @@ import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
 import Profile from './components/Profile/Profile';
 import Feed from './components/Feed/Feed';
-import Writer from "./components/Writer/Writer";
+import PostWriter from "./components/PostWriter/PostWriter";
 import CommentWriter from "./components/CommentWriter/CommentWriter";
-import Editor from "./components/Editor/Editor";
 import PostView from "./components/PostView/PostView";
 import CommentEditor from './components/CommentEditor/CommentEditor';
+import ProfileEditor from "./components/ProfileEditor/ProfileEditor";
+import PostEditor from './components/PostEditor/PostEditor';
 
 const UserContext = createContext({});
 
@@ -73,7 +74,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/writer",
-	  	element: <Writer context={UserContext} />,
+	  	element: <PostWriter context={UserContext} />,
 		errorElement: <NotFound />,
 	},
 	{
@@ -83,7 +84,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/post/editor/:postId",
-	  	element: <Editor context={UserContext} />,
+	  	element: <PostEditor context={UserContext} />,
 		errorElement: <NotFound />,
 	},
 	{
@@ -94,6 +95,11 @@ const router = createBrowserRouter([
 	{
 		path: "/comment/editor/:postId",
 	  	element: <CommentEditor context={UserContext} />,
+		errorElement: <NotFound />,
+	},
+	{
+		path: "/profile/editor/:userId",
+	  	element: <ProfileEditor context={UserContext} />,
 		errorElement: <NotFound />,
 	},
 	{

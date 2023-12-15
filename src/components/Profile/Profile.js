@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { Box, Button, Container, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import EditIcon from '@mui/icons-material/Edit';
 
 import Posts from '../Posts/Posts';
 
@@ -70,10 +71,8 @@ function Profile(props) {
             requestUrl += `/user/${userId}/reposts/`;
             setPostsType("reposts");
         } else if(subject === "likedPosts") {
-            requestUrl += "";
+            requestUrl += `/user/${userId}/liked/`;
             setPostsType("likedPosts");
-            setIsLoading(false);
-            return;
         } else {
             return;
         }
@@ -199,7 +198,15 @@ function Profile(props) {
 
                     <Typography component="h1" sx={{ mb: "1rem" }}>{user.email}</Typography>
 
-                    <Typography paragraph>{user.bio}</Typography>
+                    <Typography paragraph sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                        {user.bio}
+                        {
+                            Object.keys(user).length > 0 && user.id === userId &&
+                            <Button href={`/profile/editor/${userId}`} color="primary">
+                                <EditIcon />
+                            </Button>
+                        }
+                    </Typography>
 
                     {
                         Object.keys(user).length > 0 && user.id === userId &&

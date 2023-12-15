@@ -1,112 +1,22 @@
-import { useEffect, useState } from "react";
-
-import axios from "axios";
+import { useState } from "react";
 
 import { Box, Button, Container, MenuItem, Select, TextField, Typography } from "@mui/material";
 
 function Editor(props) {
-    const [title, setTitle] = useState("");
-    const [topic, setTopic] = useState("");
-    const [text, setText] = useState("");
+    const {
+        type, value, setValue, 
+        multilineValue, setMultilineValue, 
+        choosableValue, setChoosableValue, 
+        choosableValueOptions,
+        editFunction, clearInputs
+    } = props;
 
     const [message, setMessage] = useState({
         text: "",
         isError: false,
     });
 
-    const topicOptions = [
-        "Biomedical engineering", 
-        "Chemical engineering",
-        "Electricity",
-        "Environmental Engineering",
-        "Software Engineering",
-        "Advanced Materials",
-        "Agricultural Engineering",
-        "Artificial intelligence",
-        "Computer architecture",
-        "Computer Engineering",
-        "Design",
-        "Development Of Autonomous Driving Systems",
-        "Electromechanical Engineering",
-        "Materials Engineering",
-        "Sustainable Energy And Machinery",
-    ];
-
-    const postId = window.location.pathname.slice(13);
-
-    useEffect(() => {
-        const getPost = async () => {
-            await axios.get(`http://localhost:3001/post/${postId}/`)
-            .then(response => {
-                setTitle(response.data.title);
-                setTopic(response.data.topic);
-                setText(response.data.text);
-            })
-            .catch(error => {
-                console.log(error);
-            })
-        }
-
-        getPost();
-    }, []);
-
-    const updatePost = async () => {
-        if(title.length === 0 || title.length > 55) {
-            handleMessageUpdate("titleError");
-            return;
-        } else if(topic.length === 0) {
-            handleMessageUpdate("topicError");
-            return;
-        } else if(text.length === 0 || text.length > 1500) {
-            handleMessageUpdate("textError");
-            return;
-        }
-
-        await axios.get("http://localhost:3001/refresh/", 
-            {
-                withCredentials: true,
-                credentials: "include",
-            }
-        )
-        .then(async (response) => {
-            localStorage.removeItem("accessToken");
-            localStorage.setItem("accessToken", response.data.accessToken);
-
-            await axios.put(
-                `http://localhost:3001/post/${postId}/`,
-                {title: title, topic: topic, text: text},
-                {
-                    headers: {
-                        "Content-Type": "application/json; charset=UTF-8",
-                        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
-                    },
-                }
-            )
-            .then(response => {
-                handleMessageUpdate("updateSuccess");
-            })
-            .catch(error => {
-                console.log(error);
-
-                if(error.code === 'ERR_BAD_REQUEST') {
-                    handleMessageUpdate("axiosError", error.message);
-                } else {
-                    handleMessageUpdate("axiosError", error.response?.data?.error);
-                }
-            });
-        })
-        .catch(error => {
-            console.log(error);
-            
-            if(error.code === 'ERR_BAD_REQUEST') {
-                handleMessageUpdate("axiosError", error.message);
-            } else {
-                handleMessageUpdate("axiosError", error.response?.data?.error);
-            }
-        });
-    };
-
-    const handleMessageUpdate = (status, errorMessage) => {
+    const handleFeedbackMessageUpdate = (status, errorMessage) => {
         let messageText = "";
         let isMessageError = true;
 
@@ -119,6 +29,10 @@ function Editor(props) {
             messageText = "You must select a topic";
         } else if(status === "textError") {
             messageText = "Your text must include 1 to 500 characters";
+        } else if(status === "commentError") {
+            messageText = "Your comment should be from 1 to 1000 characters";
+        } else if(status === "bioError") {
+            messageText = "Your bio should be from 1 to 100 characters";
         } else if(status === "axiosError") {
             messageText = errorMessage;
         }
@@ -133,62 +47,69 @@ function Editor(props) {
         setMessage({text: "", isError: false});
     }
 
-    const clearInputs = () => {
-        setTitle("");
-        setTopic("");
-        setText("");
-    }
-
-
     return (
-        <Container maxWidth="md">
-            <Typography gutterBottom sx={{ fontSize: "1.2rem", fontWeight: "600" }}>Update your post:</Typography>
+        (value !== undefined || multilineValue !== undefined || choosableValue !== undefined) ?
+            <Container maxWidth="md">
+                <Typography gutterBottom sx={{ fontSize: "1.2rem", fontWeight: "600" }}>Update your {type}:</Typography>
 
-            <TextField 
-                value={title} 
-                label="Title" 
-                variant="outlined" 
-                fullWidth 
-                margin="normal" 
-                onChange={e => {setTitle(e.target.value); clearMessage()}}
-            />
-
-            <Select
-                value={topic}
-                label="Topic"
-                sx={{ width: "100%" }}
-                onChange={e => {setTopic(e.target.value); clearMessage()}}
-            >
                 {
-                    topicOptions.map((option, index) => {
-                        return (
-                            <MenuItem key={index} value={option}>{option}</MenuItem>
-                        )
-                    })
+                    value !== undefined &&
+                        <TextField 
+                            value={value} 
+                            label="Title" 
+                            variant="outlined" 
+                            fullWidth 
+                            margin="normal" 
+                            onChange={e => {setValue(e.target.value); clearMessage()}}
+                        />
                 }
-            </Select>
 
-            <TextField
-                value={text} 
-                label="Text" 
-                variant="outlined" 
-                multiline 
-                fullWidth 
-                margin="normal"
-                onChange={e => {setText(e.target.value); clearMessage()}}
-            />
+                {
+                    choosableValue !== undefined && choosableValueOptions !== undefined &&
+                        <Select
+                            value={choosableValue}
+                            label="Topic"
+                            sx={{ width: "100%" }}
+                            onChange={e => {setChoosableValue(e.target.value); clearMessage()}}
+                        >
+                            {
+                                choosableValueOptions.map((option, index) => {
+                                    return (
+                                        <MenuItem key={index} value={option}>{option}</MenuItem>
+                                    )
+                                })
+                            }
+                        </Select>
+                }
 
-            {
-                message.text.length > 0 &&
-                    <Typography sx={{ my: 1, color: message.isError ? "red" : "green" }}>{message.text}</Typography>
-            }
+                {
+                    multilineValue !== undefined &&
+                    <TextField
+                        value={multilineValue} 
+                        label="Text" 
+                        variant="outlined" 
+                        multiline 
+                        fullWidth 
+                        margin="normal"
+                        onChange={e => {setMultilineValue(e.target.value); clearMessage()}}
+                    />
+                }
 
-            <Box sx={{ display: "flex", gap: "1rem" }}>
-                <Button variant="contained" onClick={updatePost}>Update</Button>
+                {
+                    message.text.length > 0 &&
+                        <Typography sx={{ my: 1, color: message.isError ? "red" : "green" }}>{message.text}</Typography>
+                }
 
-                <Button variant="outlined" onClick={clearInputs}>Clear inputs</Button>
-            </Box>
-        </Container>
+                <Box sx={{ display: "flex", gap: "1rem" }}>
+                    <Button variant="contained" onClick={() => editFunction(handleFeedbackMessageUpdate)}>Update</Button>
+
+                    <Button variant="outlined" onClick={clearInputs}>Clear inputs</Button>
+                </Box>
+            </Container>
+        :
+            <Typography sx={{ color: "darkred", fontSize: "1.5rem" }}>
+                Something wrong happened...
+            </Typography>
     )
 }
 
