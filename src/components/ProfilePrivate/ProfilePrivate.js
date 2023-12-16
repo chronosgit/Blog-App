@@ -2,16 +2,15 @@ import { useContext, useEffect, useState } from 'react';
 
 import axios from "axios";
 
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Link, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import EditIcon from '@mui/icons-material/Edit';
 
 import Posts from '../Posts/Posts';
+import { UserContext } from '../../App';
 
-function ProfilePrivate(props) {
-    const {context} = props;
-    const usedContext = useContext(context);
-    const {user, setUser, setProfileImageLink, setProfileImageSrc} = usedContext;
+function ProfilePrivate() {
+    const {user, setUser, setProfileImageLink, setProfileImageSrc} = useContext(UserContext);
 
     const [posts, setPosts] = useState([]);
     const [postsType, setPostsType] = useState("");
@@ -23,7 +22,20 @@ function ProfilePrivate(props) {
         width: 150,
         height: 150,
         borderRadius: "50%",
-    }
+    };
+
+    const createPostBoxStyles = {
+        width: "max-content",
+        mt: "1rem",
+        padding: "0.5rem",
+        borderRadius: "1rem",
+        backgroundColor: "#88DAD4",
+        transition: "all 0.1s ease",
+        cursor: "pointer",
+        "&:hover": {
+            backgroundColor: "#7cc4bf",
+        }
+    };
     
     useEffect(() => {
         const getUser = async () => {
@@ -190,7 +202,7 @@ function ProfilePrivate(props) {
             <Box
                 sx={{
                     display: "flex",
-                    alignItems: "flex-start",
+                    alignItems: "center",
                     columnGap: "2rem",
                     width: "100%",
                     marginBottom: 1,
@@ -222,16 +234,23 @@ function ProfilePrivate(props) {
                         {user.bio}
 
                         {
-                            Object.keys(user).length > 0 && user.id === userId &&
-                            <Button href={`/profile/editor/${userId}`} color="primary">
-                                <EditIcon />
-                            </Button>
+                        Object.keys(user).length > 0 && user.id === userId &&
+                        <Button href={`/profile/editor/${userId}`} color="primary">
+                            <EditIcon />
+                        </Button>
                         }
                     </Typography>
 
                     {
-                        Object.keys(user).length > 0 && user.id === userId &&
-                            <input id="pfpInput" type="file" accept="image/jpeg, image/png, image/jpg" onChange={uploadProfilePicture} />
+                    Object.keys(user).length > 0 && user.id === userId &&
+                        <input id="pfpInput" type="file" accept="image/jpeg, image/png, image/jpg" onChange={uploadProfilePicture} />
+                    }
+
+                    {
+                    Object.keys(user).length > 0 && user.id === userId &&
+                        <Box sx={createPostBoxStyles}>
+                            <Link href="/writer" underline="none" color="var(--mainColor)">Make a post</Link>
+                        </Box>
                     }
                 </Box>
             </Box>
@@ -244,7 +263,7 @@ function ProfilePrivate(props) {
 
             {
                 posts.length > 0 &&
-                    <Posts posts={posts} context={context} />
+                    <Posts posts={posts} />
             }
 
             {

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import axios from "axios";
 
@@ -7,11 +7,7 @@ import { Box, Container } from "@mui/material";
 import Post from "../Post/Post";
 import Comment from "../Comment/Comment";
 
-function PostView(props) {
-    const {context} = props;
-    const usedContext = useContext(context);
-    const {user} = usedContext;
-
+function PostView() {
     const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
 
@@ -43,14 +39,14 @@ function PostView(props) {
 
     return (
         <Container maxWidth="lg">
-            <Post post={post} context={context} postView />
+            <Post post={post} postView />
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: "2rem", mt: "5rem" }}>
                 {
                     comments?.length > 0 && 
                     comments.map((comment, index) => {
                         return (
-                            <Comment key={index} comment={comment} context={context} />
+                            <Comment key={index} comment={comment} />
                         )
                     })
                 }

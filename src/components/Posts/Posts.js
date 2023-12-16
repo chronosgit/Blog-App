@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import Post from "../Post/Post";
 
 function Posts(props) {
-    const {posts, context} = props;
+    const {posts} = props;
 
     return (
         posts.length > 0 ?
@@ -17,9 +17,9 @@ function Posts(props) {
                 }}
             >
                 {
-                    posts.map((post, index) => {
+                    posts?.map((post, index) => {
                         return (
-                            <Post key={index} id={`post_${index}`} post={post} context={context} />
+                            <Post key={index} id={`post_${index}`} post={post} />
                         )
                     })
                 }

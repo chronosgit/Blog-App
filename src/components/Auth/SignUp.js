@@ -8,12 +8,12 @@ import {Link,Container,Typography,IconButton,Button,
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-function SignUp(props) {
+import { UserContext } from "../../App";
+
+function SignUp() {
     const navigate = useNavigate();
 
-    const {context} = props;
-    const usedContext = useContext(context);
-    const {setUser, setProfileImageLink, setProfileImageSrc} = usedContext;
+    const {setUser, setProfileImageLink, setProfileImageSrc} = useContext(UserContext);
 
     const [showPassword, setShowPassword] = useState(false);
     const [showCPassword, setShowCPassword] = useState(false);

@@ -25,7 +25,7 @@ import ProfileEditor from "./components/ProfileEditor/ProfileEditor";
 import ProfilePrivate from "./components/ProfilePrivate/ProfilePrivate";
 import PostEditor from './components/PostEditor/PostEditor';
 
-const UserContext = createContext({});
+export const UserContext = createContext({});
 
 const router = createBrowserRouter([
 	{
@@ -55,57 +55,57 @@ const router = createBrowserRouter([
   	},
 	{
 		path: "/signin",
-	  	element: <SignIn context={UserContext} />,
+	  	element: <SignIn />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/signup",
-	  	element: <SignUp context={UserContext} />,
+	  	element: <SignUp />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/profile/:id",
-	  	element: <Profile context={UserContext} />,
+	  	element: <Profile />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/profile/your/:id",
-	  	element: <ProfilePrivate context={UserContext} />,
+	  	element: <ProfilePrivate />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/feed",
-	  	element: <Feed context={UserContext} />,
+	  	element: <Feed />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/writer",
-	  	element: <PostWriter context={UserContext} />,
+	  	element: <PostWriter />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/comment/:postId",
-	  	element: <CommentWriter context={UserContext} />,
+	  	element: <CommentWriter />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/post/editor/:postId",
-	  	element: <PostEditor context={UserContext} />,
+	  	element: <PostEditor />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/post/:postId",
-	  	element: <PostView context={UserContext} />,
+	  	element: <PostView />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/comment/editor/:postId",
-	  	element: <CommentEditor context={UserContext} />,
+	  	element: <CommentEditor />,
 		errorElement: <NotFound />,
 	},
 	{
 		path: "/profile/editor/:userId",
-	  	element: <ProfileEditor context={UserContext} />,
+	  	element: <ProfileEditor />,
 		errorElement: <NotFound />,
 	},
 	{
@@ -119,50 +119,6 @@ function App() {
 	const [user, setUser] = useState({});
 	const [profileImageLink, setProfileImageLink] = useState("");
     const [profileImageSrc, setProfileImageSrc] = useState("");
-
-	useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-
-        const getUser = async () => {
-            await axios.get("http://localhost:3001/refresh/", {
-                withCredentials: true,
-                credentials: "include",
-            })
-            .then(async (response) => {
-                localStorage.removeItem("accessToken");
-                localStorage.setItem("accessToken", response.data.accessToken);
-
-				await axios.get("http://localhost:3001/user/", {
-					signal: controller.signal,
-					headers: {
-						"Content-Type": "application/json; charset=UTF-8",
-						"Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
-					},
-				})
-				.then(response => {
-					setUser(response.data);
-					setProfileImageLink(`/profile/your/${response.data.id}`);
-					setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
-
-					isMounted && setUser(response.data);
-				})
-				.catch(error => {
-					console.log(error);
-				});
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        }
-
-        getUser();
-
-        return () => {
-            isMounted = false;
-            controller.abort();
-        }
-    }, []);
 
 	const THEME = createTheme({
 		typography: {
@@ -185,7 +141,7 @@ function App() {
 		<UserContext.Provider value={{user, setUser, profileImageLink, setProfileImageLink, profileImageSrc, setProfileImageSrc}}>
 			<div className="App">
 				<ThemeProvider theme={THEME}>
-					<Header context={UserContext} />
+					<Header />
 
 					<Footer />
 

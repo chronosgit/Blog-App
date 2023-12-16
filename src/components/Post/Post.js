@@ -13,10 +13,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
+import { UserContext } from "../../App";
+
 function Post(props) {
-    const {post, hideComment, context, postView, commentWriter} = props;
-    const usedContext = useContext(context);
-    const {user} = usedContext;
+    const {post, hideComment, postView, commentWriter} = props;
+    const {user} = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -32,7 +33,7 @@ function Post(props) {
     useEffect(() => {
         setIsPostReposted(post.reposts?.includes(user.id));
         setIsPostLiked(post.likes?.includes(user.id));
-    }, [post]);
+    }, [post, user]);
 
     const handleLike = async () => {
         if(Object.keys(user).length === 0) {

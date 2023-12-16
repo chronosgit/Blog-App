@@ -10,12 +10,12 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-function SignIn(props) {
+import { UserContext } from '../../App';
+
+function SignIn() {
     const navigate = useNavigate();
 
-    const {context} = props;
-    const usedContext = useContext(context);
-    const {setUser, setProfileImageLink, setProfileImageSrc} = usedContext;
+    const {setUser, setProfileImageLink, setProfileImageSrc} = useContext(UserContext);
 
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");

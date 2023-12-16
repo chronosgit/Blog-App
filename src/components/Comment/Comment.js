@@ -9,10 +9,11 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import { UserContext } from "../../App";
+
 function Comment(props) {
-    const {comment, context} = props;
-    const usedContext = useContext(context);
-    const {user} = usedContext;
+    const {comment} = props;
+    const {user} = useContext(UserContext);
 
     const navigate = useNavigate();
 

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import axios from "axios";
 
@@ -7,10 +7,6 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import Post from "../Post/Post";
 
 function CommentWriter(props) {
-    const {context} = props;
-    const usedContext = useContext(context);
-    const {user} = usedContext;
-
     const [post, setPost] = useState({});
     const [comment, setComment] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -74,7 +70,7 @@ function CommentWriter(props) {
 
     return (
         <Container sx={{ width: "75%" }}>
-            <Post post={post} context={context} hideComment commentWriter />
+            <Post post={post} hideComment commentWriter />
 
             <Box sx={{ display: "flex", alignItems: "stretched", gap: "1rem", mt: "5rem" }}>
                 <TextField

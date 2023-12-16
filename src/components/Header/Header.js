@@ -1,4 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+
+import axios from 'axios';
 
 import { Box, Typography, Link, Grid } from '@mui/material';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
@@ -9,11 +11,10 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';
 import ProfilePictureInteractive from '../ProfilePictureInteractive/ProfilePictureInteractive';
+import { UserContext } from "../../App";
 
-function Header(props) {
-    const {context} = props;
-    const usedContext = useContext(context);
-    const {user, setUser, profileImageLink, setProfileImageLink, profileImageSrc, setProfileImageSrc} = usedContext;
+function Header() {
+    const {user, setUser, profileImageLink, setProfileImageLink, profileImageSrc, setProfileImageSrc} = useContext(UserContext);
 
     const data = {
         navLinks: [
@@ -49,6 +50,52 @@ function Header(props) {
             },
         ]
     }
+
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+
+		console.log("Header");
+
+        const getUser = async () => {
+            await axios.get("http://localhost:3001/refresh/", {
+                withCredentials: true,
+                credentials: "include",
+            })
+            .then(async (response) => {
+                localStorage.removeItem("accessToken");
+                localStorage.setItem("accessToken", response.data.accessToken);
+
+				await axios.get("http://localhost:3001/user/", {
+					signal: controller.signal,
+					headers: {
+						"Content-Type": "application/json; charset=UTF-8",
+						"Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+					},
+				})
+				.then(response => {
+					setUser(response.data);
+					setProfileImageLink(`/profile/your/${response.data.id}`);
+					setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
+
+					isMounted && setUser(response.data);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+
+        getUser();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
+    }, []);
 
     return (
         <Grid

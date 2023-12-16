@@ -4,13 +4,10 @@ import axios from "axios";
 
 import { Box, Button, Container, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import EditIcon from '@mui/icons-material/Edit';
 
 import Posts from '../Posts/Posts';
 
 function Profile(props) {
-    const {context} = props;
-
     const [user, setUser] = useState({});
     const [posts, setPosts] = useState([]);
     const [postsType, setPostsType] = useState("");
@@ -178,7 +175,7 @@ function Profile(props) {
 
             {
                 posts.length > 0 &&
-                    <Posts posts={posts} context={context} />
+                    <Posts posts={posts} />
             }
 
             {
