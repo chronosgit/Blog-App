@@ -35,7 +35,7 @@ function Footer() {
                     position: "absolute",
                     bottom: 0,
                     left: 0,
-                    width: "100%",
+                    width: "100vw",
                     color: "var(--mainColor)"
                 }}
             >
@@ -74,9 +74,11 @@ function Footer() {
                     </Box>
                 </Box>
 
-                <Box sx={{ p: "1.5rem 2rem" }}>
+                <Box sx={{ p: "1.5rem 0", justifyContent: "center", flexDirection: "column",
+                            width: "100vw", display: "flex" }}>
                     <Typography
                         sx={{
+                            alignSelf : "center",
                             fontSize: "1.2rem",
                             fontWeight: "900",
                             letterSpacing: 3,
@@ -87,6 +89,7 @@ function Footer() {
                     </Typography>
                     <Box
                         sx={{
+                            alignSelf: "center",
                             display: "flex",
                             alignItems: "center",
                             gap: "0.5rem",

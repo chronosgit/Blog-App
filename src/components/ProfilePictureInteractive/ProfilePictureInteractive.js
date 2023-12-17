@@ -11,6 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Link from '@mui/material/Link';
+import { useNavigate, useNavigation } from 'react-router-dom';
 
 function ProfilePictureInteractive(props) {
 	const {setProfileImageSrc, setProfileImageLink, setUser, profileImageSrc, profileImageLink} = props;
@@ -107,9 +108,9 @@ function ProfilePictureInteractive(props) {
 			transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 			anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 		>
-			<MenuItem>
-				<Link href={profileImageLink} underline="none">Profile</Link>
-			</MenuItem>
+			<Link href={profileImageLink} underline="none">
+				<MenuItem>Profile</MenuItem>
+			</Link>
 			<Divider />
 			<MenuItem>
 				<ListItemIcon>

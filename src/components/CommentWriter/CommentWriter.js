@@ -4,20 +4,31 @@ import axios from "axios";
 
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
+import Comment from "../Comment/Comment";
 import Post from "../Post/Post";
 
 function CommentWriter(props) {
     const [post, setPost] = useState({});
     const [comment, setComment] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [comments, setComments] = useState([]);
 
     const postId = window.location.pathname.slice(9);
 
     useEffect(() => {
         const getPost = async () => {
             await axios.get(`http://localhost:3001/post/${postId}/`)
-            .then(response => {
-                setPost(response.data)
+            .then(async (response) => {
+                setPost(response.data);
+                await axios.get(
+                    `http://localhost:3001/comments/${postId}/`,
+                )
+                .then(response => {
+                    setComments(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -86,7 +97,16 @@ function CommentWriter(props) {
                     Comment
                 </Button>
             </Box>
-
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "2rem", mt: "5rem" }}>
+                {
+                    comments?.length > 0 && 
+                    comments.map((comment_, index) => {
+                        return (
+                            <Comment key={index} comment={comment_} />
+                        )
+                    })
+                }
+            </Box>
             {
                 errorMessage.length > 0 &&
                     <Typography sx={{ color: "darkred" }}>

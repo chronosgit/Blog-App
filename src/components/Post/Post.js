@@ -163,14 +163,14 @@ function Post(props) {
         <>
         {
             !isPostDeleted ?
-                <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                    <Box
+                <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem"}}>
+                    <Box onClick={()=>!postView&&navigate(`/post/${post.id}`)}
                         sx={{
                             width: "100%",
                             p: "1rem", 
                             position: "relative",
                             border: "1px solid rgba(0, 0, 0, 0.1)",
-                            borderRadius: 1, 
+                            borderRadius: 1, cursor: "pointer" 
                         }}
                     >
                         <Box 

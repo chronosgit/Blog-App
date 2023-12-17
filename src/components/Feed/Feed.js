@@ -14,6 +14,7 @@ function Feed() {
     const [posts, setPosts] = useState([]);
     const [activeFilter, setActiveFilter] = useState("time");
     const [isLoading, setIsLoading] = useState(false);
+    let prevScrollY = 0;
 
     useEffect(() => {
         const getPostsActivator = async () => {
@@ -35,8 +36,9 @@ function Feed() {
         if(isLoading) {
             return;
         }
-
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        //console.log(window.innerHeight, window.scrollY, document.body.offsetHeight);
+        if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            prevScrollY = window.scrollY;
             getPosts(activeFilter, document.documentElement.offsetHeight);
         }
     }
@@ -78,10 +80,11 @@ function Feed() {
             }
             
             if(posts.length + response.data.length !== oldPostsLength) {
-                window.scrollTo(0, 0); // values are x,y-offset
-
+                //console.log(prevScrollY);
+                window.scrollTo(0, prevScrollY-200); // values are x,y-offset
+                //console.log(window.scrollY);
                 setPosts(response.data);
-
+                
                 // setPosts(previous => {
                 //     return previous.concat(response.data)
                 // });
@@ -96,7 +99,7 @@ function Feed() {
     }
 
     return (
-        <Container sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <Container sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between", scrollSnapType: "y mandatory !important", scrollBehavior : "initial" }}>
             {
             posts.length > 0 ?
             <>

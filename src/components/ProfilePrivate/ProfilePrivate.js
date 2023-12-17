@@ -228,9 +228,10 @@ function ProfilePrivate() {
                         {user.username}
                     </Typography>
 
-                    <Typography component="h1" sx={{ mb: "1rem" }}>{user.email}</Typography>
+                    <Typography component="h1" sx={{ mt: "1rem", mb: ".5rem" }}><b>Email:</b> {user.email}</Typography>
+                    <Typography component="h1" sx={{ mt: "1rem", mb: ".5rem" }}><b>About:</b></Typography>
 
-                    <Typography paragraph sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                    <Typography paragraph sx={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
                         {user.bio}
 
                         {
@@ -241,6 +242,7 @@ function ProfilePrivate() {
                         }
                     </Typography>
 
+                    <Typography component="h1" sx={{ mt: "1rem", mb: ".5rem" }}><b>Profile picture:</b></Typography>
                     {
                     Object.keys(user).length > 0 && user.id === userId &&
                         <input id="pfpInput" type="file" accept="image/jpeg, image/png, image/jpg" onChange={uploadProfilePicture} />
@@ -249,14 +251,14 @@ function ProfilePrivate() {
                     {
                     Object.keys(user).length > 0 && user.id === userId &&
                         <Box sx={createPostBoxStyles}>
-                            <Link href="/writer" underline="none" color="var(--mainColor)">Make a post</Link>
+                            <Link href="/writer" underline="none" color="var(--mainColor)">New post</Link>
                         </Box>
                     }
                 </Box>
             </Box>
 
             <Box sx={{ display: "flex", justifyContent: "space-between", columnGap: 2, my: "1rem" }}>
-                <Button variant="text" color="secondary" onClick={() => getPosts("ownPosts")}>Own posts</Button>
+                <Button variant="text" color="secondary" onClick={() => getPosts("ownPosts")}>Your posts</Button>
                 <Button variant="text" color="secondary" onClick={() => getPosts("reposts")}>Reposts</Button>
                 <Button variant="text" color="secondary" onClick={() => getPosts("likedPosts")}>Liked posts</Button>
             </Box>
