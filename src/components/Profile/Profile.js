@@ -107,9 +107,7 @@ function Profile(props) {
             if(posts.length + response.data.length !== oldPostsLength) {
                 window.scrollTo(0, 0); // values are x,y-offset
 
-                setPosts(previous => {
-                    return previous.concat(response.data)
-                });
+                setPosts(response.data);
             }
         })
         .catch(error => {
