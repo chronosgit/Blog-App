@@ -11,6 +11,7 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';
 import ProfilePictureInteractive from '../ProfilePictureInteractive/ProfilePictureInteractive';
+import Search from "../Search/Search";
 import { UserContext } from "../../App";
 
 function Header() {
@@ -175,6 +176,8 @@ function Header() {
 
             <Grid item xs={2} sm={4} md={6}>
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "2rem" }}>
+                    <Search />
+
                     <Box
                         sx={{
                             display: "flex",

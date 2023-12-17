@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { Box, Button, ButtonGroup, Typography } from "@mui/material";
+import Tooltip from '@mui/material/Tooltip';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import NearMeOutlinedIcon from '@mui/icons-material/NearMeOutlined';
@@ -12,6 +13,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+
 
 import { UserContext } from "../../App";
 
@@ -257,7 +259,9 @@ function Post(props) {
                                     {
                                         !postView &&
                                             <Button href={`/post/${post.id}`} color="info">
-                                                <VisibilityIcon />
+                                                <Tooltip title="View">
+                                                    <VisibilityIcon />
+                                                </Tooltip>
                                             </Button>
                                     }
                                 </ButtonGroup>
