@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import Posts from '../Posts/Posts';
 import { UserContext } from '../../App';
+import FollowBox from '../../FollowBox/FollowBox';
 
 function ProfilePrivate() {
     const {user, setUser, setProfileImageLink, setProfileImageSrc} = useContext(UserContext);
@@ -107,6 +108,9 @@ function ProfilePrivate() {
         } else if(subject === "likedPosts") {
             requestUrl += `/user/${userId}/liked/`;
             setPostsType("likedPosts");
+        } else if(subject === "follows") {
+            requestUrl += `/user/${userId}/follows/`;
+            setPostsType("follows");
         } else {
             return;
         }
@@ -260,11 +264,19 @@ function ProfilePrivate() {
                 <Button variant="text" color="secondary" onClick={() => getPosts("ownPosts")}>Your posts</Button>
                 <Button variant="text" color="secondary" onClick={() => getPosts("reposts")}>Reposts</Button>
                 <Button variant="text" color="secondary" onClick={() => getPosts("likedPosts")}>Liked posts</Button>
+                <Button variant="text" color="secondary" onClick={() => getPosts("follows")}>Follows</Button>
             </Box>
 
             {
                 posts.length > 0 &&
-                    <Posts posts={posts} />
+                    postsType !== "follows" ?
+                        <Posts posts={posts} />
+                    :
+                        posts.map((user, index) => {
+                            return (
+                                <FollowBox user={user} />
+                            )
+                        })
             }
 
             {
