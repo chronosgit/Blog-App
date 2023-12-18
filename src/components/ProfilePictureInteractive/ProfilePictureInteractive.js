@@ -107,13 +107,6 @@ function ProfilePictureInteractive(props) {
 				<MenuItem>Profile</MenuItem>
 			</Link>
 			<Divider />
-			<MenuItem>
-				<ListItemIcon>
-					<Settings fontSize="small" />
-				</ListItemIcon>
-
-				Settings
-			</MenuItem>
 			<MenuItem onClick={handleLogout}>
 				<ListItemIcon>
 					<Logout fontSize="small" />

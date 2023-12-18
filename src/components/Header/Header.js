@@ -229,7 +229,7 @@ function Header() {
                     {
                         Object.keys(user).length > 0 ?
                             <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                                <Badge badgeContent={notifications.length} color="error" max={99} onClick={handleNotificationsClick}>
+                                <Badge badgeContent={notifications?.length} color="error" max={99} onClick={handleNotificationsClick}>
                                     <NotificationsIcon />
                                 </Badge>
                                 <Popover
@@ -246,7 +246,7 @@ function Header() {
                                     }}
                                 >
                                     {
-                                    notifications.length > 0 ?
+                                    notifications?.length > 0 ?
                                         <Notifications notifications={notifications} setNotifications={setNotifications} />
                                     :
                                         <Typography sx={{ p: "0.5rem" }}>No notifications</Typography>
