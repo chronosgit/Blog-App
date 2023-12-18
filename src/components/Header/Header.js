@@ -229,7 +229,7 @@ function Header() {
                     {
                         Object.keys(user).length > 0 ?
                             <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                                <Badge badgeContent={notifications?.length} color="error" max={99} onClick={handleNotificationsClick}>
+                                <Badge sx={{cursor:"pointer"}} badgeContent={notifications?.length} color="error" max={99} onClick={handleNotificationsClick}>
                                     <NotificationsIcon />
                                 </Badge>
                                 <Popover

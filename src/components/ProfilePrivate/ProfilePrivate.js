@@ -175,7 +175,8 @@ function ProfilePrivate() {
                 }
             )
             .then(response => {
-                window.location.href = "/";
+                window.location.reload();
+                //window.location.href = "/";
             })
             .catch(error => {
                 console.log(error);
