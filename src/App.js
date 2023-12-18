@@ -1,7 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
-import axios from 'axios';
 
 import { ThemeProvider, createTheme } from '@mui/material';
 

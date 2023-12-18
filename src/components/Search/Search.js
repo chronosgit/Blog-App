@@ -37,6 +37,7 @@ function Search() {
             } 
         )
         .then(response => {
+            console.log(response.data)
             setOptions(response.data);
         })
         .catch(error => {
@@ -72,33 +73,6 @@ function Search() {
 
         return;
     }
-
-    // const OptionComponent = (props) => {
-    //     const {option} = props;
-
-    //     return (
-    //         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "0.5rem" }}>
-    //             <Typography
-    //                 sx={{
-    //                     p: 0.5,
-    //                     width: "fit-content",
-    //                     fontSize: "0.7rem",
-    //                     backgroundColor: "var(--mainColor)",
-    //                     color: "var(--backgroundColor)",
-    //                     border: "1px solid rgba(0, 0, 0, 0.1)",
-    //                     borderRadius: 1,
-    //                     textTransform: "uppercase", 
-    //                 }}
-    //             >
-    //                 {option.type}
-    //             </Typography>
-
-    //             <Typography>
-    //                 {option.value}
-    //             </Typography>
-    //         </Box>
-    //     )
-    // };
 
     return (
         <ClickAwayListener onClickAway={handleClickAway}>

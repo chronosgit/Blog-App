@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import axios from "axios";
 
@@ -6,14 +6,18 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import Posts from '../Posts/Posts';
+import { UserContext } from "../../App";
 
-function Profile(props) {
+function Profile() {
+    const userId = window.location.pathname.slice(9);
+
+    const {user: privateUser} = useContext(UserContext);
+    const [isFollowed, setIsFollowed] = useState(privateUser?.follows?.includes(userId));
+
     const [user, setUser] = useState({});
     const [posts, setPosts] = useState([]);
     const [postsType, setPostsType] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-
-    const userId = window.location.pathname.slice(9);
 
     const profileImageStyle = {
         width: 150,
@@ -21,15 +25,24 @@ function Profile(props) {
         borderRadius: "50%",
     }
     
+    const createPostBoxStyles = {
+        width: "max-content",
+        padding: "0.5rem",
+        color: "var(--mainColor)",
+        borderRadius: "1rem",
+        backgroundColor: "#88DAD4",
+        transition: "all 0.1s ease",
+        cursor: "pointer",
+        "&:hover": {
+            backgroundColor: "#7cc4bf",
+        }
+    };
+
     useEffect(() => {
         const getUserProfile = async () => {
             await axios.get(`http://localhost:3001/user/${userId}`)
             .then(response => {
                 setUser(response.data);
-
-                // Object.keys(user).length > 0 && user.id === userId
-
-                console.log(Object.keys(user), user.id, userId);
             })
             .catch(error => {
                 console.log(error);
@@ -38,6 +51,10 @@ function Profile(props) {
 
         getUserProfile();
     }, [])
+
+    useEffect(() => {
+        setIsFollowed(privateUser?.follows?.includes(userId));
+    }, [privateUser]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -117,6 +134,46 @@ function Profile(props) {
         });
     };
 
+    const followUser = async () => {
+        if(Object.keys(privateUser).length === 0) {
+            window.location.href = "/signin";
+            return;
+        }
+
+        await axios.get("http://localhost:3001/refresh/", 
+            {
+                withCredentials: true,
+                credentials: "include",
+            }
+        )
+        .then(async (response) => {
+            localStorage.removeItem("accessToken");
+            localStorage.setItem("accessToken", response.data.accessToken);
+
+            await axios.post(
+                "http://localhost:3001/follow/",
+                {userId: userId},
+                {
+                    headers: {
+                        "Content-Type": "application/json; charset=UTF-8",
+                        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+                    },
+                }
+            )
+            .then(response => {
+                console.log(response);
+
+                setIsFollowed(prev => !prev);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+
     return (
         <Container
             maxWidth="sm" 
@@ -162,6 +219,15 @@ function Profile(props) {
                     <Typography paragraph sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                         {user.bio}
                     </Typography>
+
+                    {
+                    (Object.keys(privateUser).length && privateUser.id !== user.id) > 0 &&
+                        <Button sx={createPostBoxStyles} onClick={followUser}>
+                            {
+                            isFollowed ? "Unfollow" : "Follow"
+                            }
+                        </Button>
+                    }
                 </Box>
             </Box>
 

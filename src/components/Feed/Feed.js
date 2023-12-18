@@ -73,7 +73,6 @@ function Feed() {
         )
         .then(response => {
             setIsLoading(false);
-            console.log(1);
 
             if(response.data === "OK") {
                 return;
@@ -84,14 +83,9 @@ function Feed() {
                 window.scrollTo(0, prevScrollY-200); // values are x,y-offset
                 //console.log(window.scrollY);
                 setPosts(response.data);
-                
-                // setPosts(previous => {
-                //     return previous.concat(response.data)
-                // });
             }
         })
         .catch(error => {
-            console.log(3);
             setIsLoading(false);
 
             console.log(error);

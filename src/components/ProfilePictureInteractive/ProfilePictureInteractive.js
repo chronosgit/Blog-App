@@ -11,7 +11,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Link from '@mui/material/Link';
-import { useNavigate, useNavigation } from 'react-router-dom';
 
 function ProfilePictureInteractive(props) {
 	const {setProfileImageSrc, setProfileImageLink, setUser, profileImageSrc, profileImageLink} = props;
@@ -43,11 +42,7 @@ function ProfilePictureInteractive(props) {
             localStorage.removeItem("user");
             document.cookie = "JWT=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-            setUser({});
-            setProfileImageLink("");
-            setProfileImageSrc("");
-
-            window.location.href = "/";
+			window.location.href = "/";
         })
         .catch(error => {
             console.log(error);

@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Typography, Link } from "@mui/material";
 
 function HomeStories() {
-    const stories = [ // random blogs in this weeks, we can change them for existing blogs in web
+    const stories = [
         {
             title: "Renewable energy fasfasfasfafasfafasfsafasfasfafafs",
             link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -63,7 +63,7 @@ function HomeStories() {
                     textAlign: "center",
                 }}
             >
-                This Week's stories
+                Hype stories
             </Typography>
             <Grid
                 container

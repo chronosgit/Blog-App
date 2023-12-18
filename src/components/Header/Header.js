@@ -1,21 +1,32 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { Box, Typography, Link, Grid } from '@mui/material';
+import { Box, Typography, Link, Grid, Badge, Popover } from '@mui/material';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import NavigationLink from '../NavigationLink/NavigationLink';
 import SocialLink from '../SocialLink/SocialLink';
 import ProfilePictureInteractive from '../ProfilePictureInteractive/ProfilePictureInteractive';
 import Search from "../Search/Search";
+import Notifications from "../Notifications/Notifications";
 import { UserContext } from "../../App";
 
 function Header() {
     const {user, setUser, profileImageLink, setProfileImageLink, profileImageSrc, setProfileImageSrc} = useContext(UserContext);
+
+    const [notifications, setNotifications] = useState([]);
+    const [profilePicture, setProfilePicture] = useState({
+        link: "",
+        src: "",
+    })
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
 
     const data = {
         navLinks: [
@@ -52,11 +63,25 @@ function Header() {
         ]
     }
 
+    const handleNotificationsClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+  
+    const handleNotificationsClose = () => {
+        setAnchorEl(null);
+    };
+
+    useEffect(() => {
+        setNotifications(user.notifications || []);
+        setProfilePicture({
+            link: profileImageLink,
+            src: profileImageSrc,
+        });
+    }, [user, profileImageLink, profileImageSrc]);
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
-
-		console.log("Header");
 
         const getUser = async () => {
             await axios.get("http://localhost:3001/refresh/", {
@@ -78,6 +103,12 @@ function Header() {
 					setUser(response.data);
 					setProfileImageLink(`/profile/your/${response.data.id}`);
 					setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
+
+                    setNotifications(response.data.notifications);
+                    setProfilePicture({
+                        link: `/profile/your/${response.data.id}`,
+                        src: 'data:image/jpeg;base64,' + response.data.profilePic,
+                    });
 
 					isMounted && setUser(response.data);
 				})
@@ -106,7 +137,7 @@ function Header() {
             alignItems="center"
             sx={{
                 mb: "3rem",
-                p: "1rem 2rem 1rem 1rem",
+                p: "1rem 4rem",
                 borderBottom: "1px black solid",
                 borderColor: "gray",
             }}
@@ -175,7 +206,7 @@ function Header() {
             </Grid>
 
             <Grid item xs={2} sm={4} md={6}>
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "2rem" }}>
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "2rem"}}>
                     <Search />
 
                     <Box
@@ -197,13 +228,39 @@ function Header() {
 
                     {
                         Object.keys(user).length > 0 ?
-                            <ProfilePictureInteractive
-                                profileImageLink={profileImageLink} 
-                                profileImageSrc={profileImageSrc}
-                                setUser={setUser}
-                                setProfileImageLink={setProfileImageLink}
-                                setProfileImageSrc={setProfileImageSrc}
-                            />
+                            <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                <Badge badgeContent={notifications.length} color="error" max={99} onClick={handleNotificationsClick}>
+                                    <NotificationsIcon />
+                                </Badge>
+                                <Popover
+                                    open={open}
+                                    anchorEl={anchorEl}
+                                    onClose={handleNotificationsClose}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                >
+                                    {
+                                    notifications.length > 0 ?
+                                        <Notifications notifications={notifications} setNotifications={setNotifications} />
+                                    :
+                                        <Typography sx={{ p: "0.5rem" }}>No notifications</Typography>
+                                    }
+                                </Popover>
+
+                                <ProfilePictureInteractive
+                                    profileImageLink={profileImageLink} 
+                                    profileImageSrc={profileImageSrc}
+                                    setUser={setUser}
+                                    setProfileImageLink={setProfileImageLink}
+                                    setProfileImageSrc={setProfileImageSrc}
+                                />
+                            </Box>
                         :
                             <Link 
                                 href="/signin"

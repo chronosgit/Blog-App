@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 
@@ -11,8 +10,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { UserContext } from "../../App";
 
 function SignUp() {
-    const navigate = useNavigate();
-
     const {setUser, setProfileImageLink, setProfileImageSrc} = useContext(UserContext);
 
     const [showPassword, setShowPassword] = useState(false);
@@ -102,7 +99,7 @@ function SignUp() {
             setProfileImageLink(`/profile/your/${response.data.id}`);
             setProfileImageSrc('data:image/jpeg;base64,' + response.data.profilePic);
 
-            navigate("/");
+            window.location.href="/";
         })
         .catch(function (error) {
             console.log(error);

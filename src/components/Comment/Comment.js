@@ -20,7 +20,7 @@ function Comment(props) {
     const [isCommentLiked, setIsCommentLiked] = useState(comment.likes?.includes(user?.id));
     const [likesNumber, setLikesNumber] = useState(comment.likes?.length);
 
-    const postId = window.location.pathname.slice(6);
+    const postId = window.location.pathname.slice(9);
 
     const commentDateObject = new Date(Date.parse(comment.date));
     const isEditedLabel = comment.isEdited ? "edited at" : "";
