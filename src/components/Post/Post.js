@@ -32,6 +32,15 @@ function Post(props) {
     const isEditedLabel = post.isEdited ? "edited at" : "";
     const postCreationDateFormatted = `${isEditedLabel} ${postCreationDateObject.getDate()}-${postCreationDateObject.getMonth() + 1}-${postCreationDateObject.getFullYear()} ${postCreationDateObject.getHours()}:${postCreationDateObject.getMinutes()}`;
 
+    const postAuthorStyles = {
+        transition: "all 0.1s ease",
+        cursor: "pointer",
+        "&:hover": {
+            textDecoration: "underline",
+            color: "purple",
+        }
+    }
+
     useEffect(() => {
         setIsPostReposted(post.reposts?.includes(user.id));
         setIsPostLiked(post.likes?.includes(user.id));
@@ -162,6 +171,12 @@ function Post(props) {
         navigate(`/comment/${post.id}`);
     }
 
+    const clickUser = (e) => {
+        e.stopPropagation();
+
+        navigate(`/profile/${post.author}`);
+    }
+
     return (
         <>
         {
@@ -185,7 +200,7 @@ function Post(props) {
                                         textTransform: "uppercase" 
                                     }}
                                 >
-                                    <Typography>
+                                    <Typography sx={postAuthorStyles} onClick={clickUser}>
                                         By {post?.authorUsername}
                                     </Typography>
 
